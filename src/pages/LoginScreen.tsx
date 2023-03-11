@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form, Formik, Field } from 'formik';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Route, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { httpPost } from '../utils/http-client';
 import { useAuth } from '../context/AuthProvider';
+import RegisterScreen from './RegisterScreen';
 
 /**
  * Komponenta představující přihlašovací obrazovku
@@ -25,6 +26,9 @@ export default function LoginScreen() {
       login(res.data.payload.accessToken);
     }
     // TODO: zobrazit uživateli upozornění (ne `alert`), pokud uživatel zadá špatné údaje a vrátí se 401: Unauthorized
+    if (res.status === 401) {
+      alert('ajaj');
+    }
   };
 
   // přesměrování uživatele pokud je přihlášený
@@ -89,6 +93,7 @@ export default function LoginScreen() {
             {
               // TODO: přidat přesměrování na registrační formulář
             }
+            <Link to='/register'>Registrace </Link>
             <div className='text-xs mt-4 flex justify-center'>Don't have account yet? Sign up.</div>
           </Form>
         )}

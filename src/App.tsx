@@ -7,17 +7,25 @@ import TestScreen from './pages/TestScreen';
 import OverviewScreen from './pages/OverviewScreen';
 import { routes } from './utils/routes';
 import UserListScreen from './pages/UserListScreen';
+import RegisterScreen from './pages/RegisterScreen';
+import DetailUserScreen from './pages/DetailUserScreen';
+import NewUserScreen from './pages/NewUserScreeen';
+import EditUserScreen from './pages/EditUserScreen';
+
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* 
-          TODO: Využijte soubor `utils/routes` pro definování jednotlivých cest v celé aplikaci. 
-            Zaintegrujte omezený přístup k routě na základě přihlášeného/nepřihlášeného uživatele a property `restricted` 
-            -> `restricted` properta značí zda se jedná o komponentu vyžadující přihlášeného uživatele nebo ne
-        */}
+          {/* detail uživatele */}
+          <Route path='/users/:id' element={<PrivateRoute component={<DetailUserScreen />} />} />{' '}
+          {/* nový uživatel - restricted */}
+          <Route path='/users/new' element={<PrivateRoute component={<NewUserScreen />} />} />{' '}
+          {/* edit uživatele - restricted */}
+          <Route path='/users/edit/:id' element={<PrivateRoute component={<EditUserScreen />} />} />{' '}
+          {/* registrace uzivatelu - restricted */}
+          <Route path='/register' element={<RegisterScreen />} />{' '}
           {/* stránka, která nevyžaduje přihlášeného uživatele */}
           <Route path='/login' element={<LoginScreen />} />{' '}
           {/* stránka, která vyžaduje přihlášeného uživatele - tzn. "restricted" */}
@@ -32,4 +40,3 @@ function App() {
 }
 
 export default App;
-  

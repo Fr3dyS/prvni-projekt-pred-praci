@@ -8,7 +8,7 @@ import { httpGet } from '../utils/http-client';
  * Komponenta představující stránku se seznamem uživatelů
  * [pouze přihlášený uživatel]
  */
-export default function UserListScreen() {
+export default function   UserListScreen() {
   const [users, setUsers] = useState<Array<any>>([]);
 
   const fetchData = async () => {

@@ -17,6 +17,20 @@ interface Users {
   role: string;
 }
 
+interface RoleTagProps {
+  color: string;
+  text: string;
+}
+
+function RoleTag({ color, text }: RoleTagProps) {
+  return (
+    <span className={`px-2 py-1 text-white rounded-md bg-${color}-500`}>
+      {text}
+    </span>
+  );
+}
+
+
 /**
  * Komponenta představující stránku se seznamem uživatelů
  * [pouze přihlášený uživatel]
@@ -26,7 +40,7 @@ export default function UserListScreen() {
   const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
-    const res = await httpGet('users');
+    const res = await httpGet('users?limit=1000');
     if (res.status === 200) {
       setUsers(res.data.payload);
     }
@@ -36,12 +50,6 @@ export default function UserListScreen() {
     fetchData();
   }, []);
 
-  /* 
-    TODO: role v systému bude mít vlastní render -> zobrazí vlastní komponentu "RoleTag"
-      - inspirace (viz ty barevné): https://www.syncfusion.com/products/react-js2/control/images/chips/overview.png
-      - každá role bude mít vlastní barvu (definujte si libovolně)
-      - na serveru existují role: "ghost", "asset", "technician", "manager", "admin"
-  */
   /*
     NICE-TO-HAVE: TODO: úprava sloupce '#': aktuálně se zobrazují ID uživatelů -> chceme nahradit pořadovým číslem
     - (bude třeba udělat vlastní render)
@@ -64,8 +72,24 @@ export default function UserListScreen() {
       accessor: 'lastName',
     },
     {
-      Header: 'role',
+      Header: 'Role',
       accessor: 'role',
+      Cell: ({ cell }: CellProps<Users>) => (
+        <RoleTag
+          color={
+            cell.value === 'ghost'
+              ? 'gray'
+              : cell.value === 'asset'
+                ? 'blue'
+                : cell.value === 'technician'
+                  ? 'emerald'
+                  : cell.value === 'manager'
+                    ? 'lime'
+                    : 'red'
+          }
+          text={cell.value}
+        />
+      ),
     },
     {
       Header: 'Actions',

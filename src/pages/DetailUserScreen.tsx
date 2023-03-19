@@ -3,7 +3,7 @@
  * [pouze přihlášený uživatel]
  */
 export default function DetailUserScreen() {
-    return(
+    return (
         <></>
     )
 }

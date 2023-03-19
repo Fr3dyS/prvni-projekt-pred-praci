@@ -4,10 +4,10 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import { httpGet } from '../utils/http-client';
 import jwtDecode from 'jwt-decode';
 import Keys from '../utils/keys';
+import { User } from '../types/user.types';
 
 export interface AuthContextType {
-  // TODO: nahradit unknown za správný datový typ (user.types.ts)
-  user: unknown | null;
+  user: User | null;
   token: string | null;
   isAuthenticated: boolean;
   login: (token: string) => void;
@@ -15,7 +15,7 @@ export interface AuthContextType {
 }
 
 interface TokenData {
-  user: unknown;
+  user: User;
   iat: number;
   exp: number;
 }
@@ -33,7 +33,7 @@ const defaultValues: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(defaultValues);
 
 export default function AuthProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useLocalStorage<unknown>(Keys.USER, null);
+  const [user, setUser] = useLocalStorage<User | null>(Keys.USER, null);
   const [token, setToken] = useLocalStorage<string>(Keys.ACCESS_TOKEN, '');
   const [isAuthenticated, setAuthenticated] = useLocalStorage<boolean>(
     Keys.IS_AUTHENTICATED,

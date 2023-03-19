@@ -43,29 +43,4 @@ export const routes: Array<NavRoute> = [
     restricted: true,
     component: EditUserScreen,
   }
-  /*
-    TODO: HOTOVO
-
-    TODO: přidat následující obrazovky a routy
-    * unrestricted *
-    - registrace uživatele 
-      -> cesta: /register
-      -> unrestricted
-  
-
-    * restricted *
-    - seznam uživatelů 
-      -> cesta: /users
-    - detail uživatele (podle "id")
-      -> cesta: /users/:id
-    - vytvoření nového uživatele
-      -> cesta: /users/new
-    - editace stávajícího uživatele (podle "id")
-      - jsou zde dvě možnosti jak toto vyřešit:
-        - vytvořit novou obrazovku pro editaci - pak bude cesta: /users/edit/:id
-      nebo
-      - upravit vytvářecí obrazovku a přidat do ní :id a využít tím už existující komponenty a formulář
-        -> upravená cesta vytvářecí obrazovky pak bude vypadat: /users/new/:id
-      - oba způsoby jsou ok
-  */
 ];

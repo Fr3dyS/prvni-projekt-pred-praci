@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Formik, Field } from 'formik';
 import { Navigate, Route, Link } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -6,11 +6,18 @@ import { httpPost } from '../utils/http-client';
 import { useAuth } from '../context/AuthProvider';
 import RegisterScreen from './RegisterScreen';
 
+interface values {
+  username: string;
+  password: string;
+}
+
 /**
  * Komponenta představující přihlašovací obrazovku
  */
 export default function LoginScreen() {
   const { login, isAuthenticated } = useAuth();
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   // definice validačního schématu pro přihlašovací formulář
   const LoginSchema = Yup.object().shape({
@@ -19,16 +26,23 @@ export default function LoginScreen() {
   });
 
   // funkce pro odeslání přihlašovacích údajů pro přihlášení uživatele v aplikaci
-  // TODO: definovat typ pro "values" místo `any`
-  const handleSubmit = async (values: any) => {
-    const res = await httpPost('auth/signin', values);
-    if (res.status === 200) {
-      login(res.data.payload.accessToken);
+  const handleSubmit = async (values: values) => {
+    
+    try {
+      const res = await httpPost('auth/signin', values);
+      if (res.status === 200) {
+        login(res.data.payload.accessToken);
+      }
+    } catch (err: any) {
+      console.error(err);
+      if (err.response.status === 400) {
+        console.log('ajaja');
+        setErrorMessage('Invalid username or password.');
+      }
     }
-    // TODO: zobrazit uživateli upozornění (ne `alert`), pokud uživatel zadá špatné údaje a vrátí se 401: Unauthorized
-    if (res.status === 401) {
-      alert('ajaj');
-    }
+    
+    
+    
   };
 
   // přesměrování uživatele pokud je přihlášený
@@ -83,6 +97,9 @@ export default function LoginScreen() {
               {errors.password && touched.password ? (
                 <div className='text-red-500 text-xs ml-4 mt-2'>{errors.password}</div>
               ) : null}
+              {errorMessage && (
+                <div className='text-red-500 text-xs ml-4 mt-2'>{errorMessage}</div>
+              )}
             </div>
             <button
               className='rounded-full bg-sky-400 border-2 border-sky-400 text-white font-semibold hover:text-sky-400 hover:bg-transparent duration-100 py-2'
@@ -90,11 +107,7 @@ export default function LoginScreen() {
             >
               Submit
             </button>
-            {
-              // TODO: přidat přesměrování na registrační formulář
-            }
-            <Link to='/register'>Registrace </Link>
-            <div className='text-xs mt-4 flex justify-center'>Don't have account yet? Sign up.</div>
+            <div className='text-xs mt-4 flex justify-center'>Don't have account yet? <Link to='/register'>Sign up.</Link></div>
           </Form>
         )}
       </Formik>

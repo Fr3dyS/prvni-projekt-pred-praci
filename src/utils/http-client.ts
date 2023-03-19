@@ -33,6 +33,14 @@ export const httpPost = async (url: string, data: any, config?: AxiosRequestConf
   return response;
 };
 
-// TODO: implementovat HTTP PUT
+export const httpPut = async (url: string, data: any, config?: AxiosRequestConfig<any>) => {
+  const requestConfig = { headers: { ...defaultHeaders, ...getAuthHeader() }, ...config };
+  const response = await instance.put(url, data, requestConfig);
+  return response;
+};
 
-// TODO: implementovat HTTP DELETE
+export const httpDelete = async (url: string, config?: AxiosRequestConfig<any>) => {
+  const requestConfig = { headers: { ...defaultHeaders, ...getAuthHeader() }, ...config };
+  const response = await instance.delete(url, requestConfig);
+  return response;
+};

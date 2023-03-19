@@ -1,15 +1,29 @@
-import { HomeIcon, TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, TrashIcon, PencilSquareIcon, Squares2X2Icon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CellProps } from 'react-table';
 import Icon from '../components/icon/Icon';
+import Modal from '../components/layout/ModalLayout';
 import DataTable from '../components/table/DataTable';
 import { useAuth } from '../context/AuthProvider';
 import { httpGet } from '../utils/http-client';
+
+interface Users {
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  role: string;
+}
+
 /**
  * Komponenta představující stránku se seznamem uživatelů
  * [pouze přihlášený uživatel]
  */
-export default function   UserListScreen() {
-  const [users, setUsers] = useState<Array<any>>([]);
+export default function UserListScreen() {
+  const [users, setUsers] = useState<Array<Users>>([]);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
     const res = await httpGet('users');
@@ -22,7 +36,6 @@ export default function   UserListScreen() {
     fetchData();
   }, []);
 
-  // TODO: přidat sloupce pro jméno, příjmení a roli v systému
   /* 
     TODO: role v systému bude mít vlastní render -> zobrazí vlastní komponentu "RoleTag"
       - inspirace (viz ty barevné): https://www.syncfusion.com/products/react-js2/control/images/chips/overview.png
@@ -43,31 +56,61 @@ export default function   UserListScreen() {
       accessor: 'username',
     },
     {
+      Header: 'First name',
+      accessor: 'firstName',
+    },
+    {
+      Header: 'Last name',
+      accessor: 'lastName',
+    },
+    {
+      Header: 'role',
+      accessor: 'role',
+    },
+    {
       Header: 'Actions',
       accessor: 'buttons',
       // vlastní render
-      Cell: ({ cell }: any) => (
+      Cell: ({ cell }: CellProps<Users>) => (
         <div className='flex flex-row justify-center'>
           <Icon
             icon={TrashIcon}
             className='h-5 w-5 text-red-500 cursor-pointer'
-            // TODO: vyvolání modalového okna pro smazání uživatele (dvojí potvrzení - "Smazat" -> "Opravdu ho chceš smazat?")
-            // cell.row.values.id -> přístup ke konkrétní proměnné (tady ID uživatele)
-            onClick={() => console.log(`deleting user with id: ${cell.row.values.id}`)}
+            onClick={() => setShowModal(true)}
           />
-          {/* 
-            TODO: přidat editační tlačítko s akcí pro editaci (přesměrování na editaci uživatele)
-            - přesměrování na obrazovku s editací uživatele
-          */}
+          {showModal && (
+            // vyvolání modal boxu pro smazani uzivatele
+            <Modal
+              message='Opravdu chcete smazat tohoto uživatele?'
+              confirmText='Smazat'
+              onConfirm={() => {
+                console.log(`deleting user with id: ${cell.row.values.id}`);
+                setShowModal(false);
+              }}
+              onCancel={() => setShowModal(false)}
+            />
+          )}
+          <Link to={`/users/edit/${cell.row.values.id}`}>
+            <Icon
+              icon={PencilSquareIcon}
+              className='h-5 w-5 text-red-500 cursor-pointer'
+            />
+          </Link>
         </div>
       ),
     },
   ];
 
   return (
-    <div className='flex flex-col container mx-auto'>
-      <h1>User list</h1>
-      <DataTable data={users} columns={columns} />
+    <div className="min-h-screen bg-gray-100">
+      <div className="py-12 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">User list</h1>
+          <div className="bg-white shadow-md rounded-lg overflow-hidden w-full">
+            <DataTable data={users} columns={columns} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

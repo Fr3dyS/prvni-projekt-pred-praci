@@ -11,6 +11,7 @@ import RegisterScreen from './pages/RegisterScreen';
 import DetailUserScreen from './pages/DetailUserScreen';
 import NewUserScreen from './pages/NewUserScreeen';
 import EditUserScreen from './pages/EditUserScreen';
+import AuthLayout from './components/layout/AuthLayout';
 
 
 function App() {

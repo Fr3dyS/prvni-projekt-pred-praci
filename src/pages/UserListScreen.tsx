@@ -1,8 +1,9 @@
-import { HomeIcon, TrashIcon, PencilSquareIcon, Squares2X2Icon } from '@heroicons/react/24/outline';
+import { HomeIcon, TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CellProps } from 'react-table';
 import Icon from '../components/icon/Icon';
+import Layout from '../components/layout/AuthLayout';
 import Modal from '../components/layout/ModalLayout';
 import DataTable from '../components/table/DataTable';
 import { useAuth } from '../context/AuthProvider';
@@ -29,7 +30,6 @@ function RoleTag({ color, text }: RoleTagProps) {
     </span>
   );
 }
-
 
 /**
  * Komponenta představující stránku se seznamem uživatelů
@@ -126,15 +126,17 @@ export default function UserListScreen() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="py-12 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">User list</h1>
-          <div className="bg-white shadow-md rounded-lg overflow-hidden w-full">
-            <DataTable data={users} columns={columns} />
+    <Layout>
+      <div className="min-h-screen bg-gray-100">
+        <div className="py-12 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">User list</h1>
+            <div className="bg-white shadow-md rounded-lg overflow-hidden w-full">
+              <DataTable data={users} columns={columns} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

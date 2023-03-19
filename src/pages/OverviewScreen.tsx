@@ -1,3 +1,5 @@
+import Layout from '../components/layout/AuthLayout';
+
 /**
  * Komponenta představující stránku info hodnotami o uživatelích
  * [pouze přihlášený uživatel]
@@ -11,8 +13,10 @@ export default function OverviewScreen() {
 
   */
   return (
-    <div className='flex flex-col container mx-auto'>
-      <h1>Overview</h1>
-    </div>
+    <Layout>
+      <div className='flex flex-col container mx-auto'>
+        <h1>Overview</h1>
+      </div>
+    </Layout>
   );
 }

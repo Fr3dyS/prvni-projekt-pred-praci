@@ -7,7 +7,7 @@ import Layout from '../components/layout/AuthLayout';
 import Modal from '../components/layout/ModalLayout';
 import DataTable from '../components/table/DataTable';
 import { useAuth } from '../context/AuthProvider';
-import { httpGet } from '../utils/http-client';
+import { httpDelete, httpGet } from '../utils/http-client';
 
 interface Users {
   id: number;
@@ -25,7 +25,7 @@ interface RoleTagProps {
 
 function RoleTag({ color, text }: RoleTagProps) {
   return (
-    <span className={`px-2 py-1 text-white rounded-md bg-${color}-500`}>
+    <span className={`px-2 py-1 text-white rounded-md ${color}`}>
       {text}
     </span>
   );
@@ -38,6 +38,7 @@ function RoleTag({ color, text }: RoleTagProps) {
 export default function UserListScreen() {
   const [users, setUsers] = useState<Array<Users>>([]);
   const [showModal, setShowModal] = useState(false);
+  
 
   const fetchData = async () => {
     const res = await httpGet('users?limit=1000');
@@ -45,6 +46,14 @@ export default function UserListScreen() {
       setUsers(res.data.payload);
     }
   };
+
+  const deleteUser = async (id: number) => {
+    // const res = await httpDelete(`users/${id}`);
+    console.log(id);
+    /* if (res.status === 200) {
+      setUsers(users.filter((user) => user.id !== id));
+    }*/
+  }
 
   useEffect(() => {
     fetchData();
@@ -78,14 +87,14 @@ export default function UserListScreen() {
         <RoleTag
           color={
             cell.value === 'ghost'
-              ? 'gray'
+              ? 'bg-gray-500'
               : cell.value === 'asset'
-                ? 'blue'
+                ? 'bg-blue-500'
                 : cell.value === 'technician'
-                  ? 'emerald'
+                  ? 'bg-emerald-500'
                   : cell.value === 'manager'
-                    ? 'lime'
-                    : 'red'
+                    ? 'bg-lime-500'
+                    : 'bg-red-500'
           }
           text={cell.value}
         />
@@ -110,6 +119,7 @@ export default function UserListScreen() {
               onConfirm={() => {
                 console.log(`deleting user with id: ${cell.row.values.id}`);
                 setShowModal(false);
+                deleteUser(cell.row.values.id);
               }}
               onCancel={() => setShowModal(false)}
             />

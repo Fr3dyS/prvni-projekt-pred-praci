@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { useAuth } from '../context/AuthProvider';
 import { httpGet, httpPost } from '../utils/http-client';
 import Layout from '../components/layout/AuthLayout';
+import FormLayout from '../components/layout/FormLayout';
 
 interface User {
     username: string;
@@ -14,7 +15,7 @@ interface User {
 }
 
 export default function EditUserScreen() {
-    const { id } = useParams();
+    const { id } = useParams<{ id: string }>();
     const [user, setUser] = useState<User>();
 
     const validationSchema = Yup.object().shape({
@@ -26,8 +27,15 @@ export default function EditUserScreen() {
     });
 
     const handleSubmit = async (values: User) => {
-        const res = await httpGet('users/$');
-    };
+        try {
+            const res = await httpPost(`users/${id}`, values);
+            if (res.status === 200) {
+                console.log(res.data.payload);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const fetchData = async () => {
         const res = await httpGet(`users/${id}`);
@@ -55,59 +63,38 @@ export default function EditUserScreen() {
                                     lastName: user.lastName,
                                     role: user.role,
                                 }} validationSchema={validationSchema} onSubmit={handleSubmit}>
-                                    {({ isSubmitting }) => (
+                                    {({ isSubmitting, errors, touched }) => (
                                         <Form>
                                             <div className="mb-4" >
                                                 <label className="block text-gray-700 font-bold mb-2" htmlFor="id">
                                                     ID
                                                 </label>
-                                                <Field
-                                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                    type="text"
-                                                    name="id"
-                                                    placeholder="id"
-                                                    disabled
-                                                />
+                                                <FormLayout type='text' name='id' placeholder='id' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled />
                                                 <ErrorMessage name="id" component="div" className="text-red-500 mt-1" />
                                             </div>
                                             <div className="mb-4">
                                                 <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
                                                     First Name
                                                 </label>
-                                                <Field
-                                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                    type="text"
-                                                    name="firstName"
-                                                    placeholder="Enter first name"
-                                                />
+                                                <FormLayout type='text' name='firstName' placeholder='Enter first name' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                                 <ErrorMessage name="firstName" component="div" className="text-red-500 mt-1" />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
+                                                <label className="block text-gray-700 font-bold mb-2" htmlFor="lastName">
                                                     Last Name
                                                 </label>
-                                                <Field
-                                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                    type="text"
-                                                    name="lastName"
-                                                    placeholder="Enter last name"
-                                                />
+                                                <FormLayout type='text' name='lastName' placeholder='Enter last name' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                                 <ErrorMessage name="lastName" component="div" className="text-red-500 mt-1" />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
+                                                <label className="block text-gray-700 font-bold mb-2" htmlFor="username">
                                                     Username
                                                 </label>
-                                                <Field
-                                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                    type="text"
-                                                    name="username"
-                                                    placeholder="Enter username"
-                                                />
+                                                <FormLayout type='text' name='username' placeholder='Enter username' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                                 <ErrorMessage name="username" component="div" className="text-red-500 mt-1" />
                                             </div>
                                             <div className="mb-4">
-                                                <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
+                                                <label className="block text-gray-700 font-bold mb-2" htmlFor="role">
                                                     role
                                                 </label>
                                                 <Field

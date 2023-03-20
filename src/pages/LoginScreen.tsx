@@ -63,10 +63,10 @@ export default function LoginScreen() {
           {({ errors, touched }) => (
             <Form className='flex flex-col'>
               <div className='mb-4'>
-                <FormLayout type='text' name='username' placeholder='username' errors={errors} touched={touched} />
+                <FormLayout type='text' name='username' placeholder='username' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
               </div>
               <div className='mb-4'>
-                <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} />
+                <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
               </div>
               <button
                 className='rounded-full bg-sky-400 border-2 border-sky-400 text-white font-semibold hover:text-sky-400 hover:bg-transparent duration-100 py-2'

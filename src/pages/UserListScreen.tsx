@@ -38,7 +38,8 @@ function RoleTag({ color, text }: RoleTagProps) {
 export default function UserListScreen() {
   const [users, setUsers] = useState<Array<Users>>([]);
   const [showModal, setShowModal] = useState(false);
-  
+  const [deleteUserId, setDeleteUserId] = useState<number | null>(null); // Add state variable for user ID to be deleted
+
 
   const fetchData = async () => {
     const res = await httpGet('users?limit=1000');
@@ -48,25 +49,24 @@ export default function UserListScreen() {
   };
 
   const deleteUser = async (id: number) => {
-    // const res = await httpDelete(`users/${id}`);
-    console.log(id);
-    /* if (res.status === 200) {
+    const res = await httpDelete(`users/${id}`);
+    if (res.status === 200) {
       setUsers(users.filter((user) => user.id !== id));
-    }*/
+    }
   }
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  /*
-    NICE-TO-HAVE: TODO: úprava sloupce '#': aktuálně se zobrazují ID uživatelů -> chceme nahradit pořadovým číslem
-    - (bude třeba udělat vlastní render)
-  */
   const columns = [
     {
       Header: '#',
       accessor: 'id',
+      // vlastní render pro zobrazení pořadového čísla
+      Cell: ({ cell }: CellProps<Users>) => (
+        <span>{cell.row.index + 1}</span>
+      ),
     },
     {
       Header: 'Username',
@@ -109,19 +109,23 @@ export default function UserListScreen() {
           <Icon
             icon={TrashIcon}
             className='h-5 w-5 text-red-500 cursor-pointer'
-            onClick={() => setShowModal(true)}
+            onClick={() => {
+              setDeleteUserId(cell.row.values.id); // Set the user ID to be deleted
+              setShowModal(true);
+            }}
           />
-          {showModal && (
-            // vyvolání modal boxu pro smazani uzivatele
+          {showModal && deleteUserId === cell.row.values.id && ( // Only show the modal for the current user ID
             <Modal
               message='Opravdu chcete smazat tohoto uživatele?'
               confirmText='Smazat'
               onConfirm={() => {
-                console.log(`deleting user with id: ${cell.row.values.id}`);
+                deleteUser(cell.row.values.id); // Call the deleteUser function with the user ID
                 setShowModal(false);
-                deleteUser(cell.row.values.id);
               }}
-              onCancel={() => setShowModal(false)}
+              onCancel={() => {
+                setDeleteUserId(null); // Reset the deleteUserId state variable
+                setShowModal(false);
+              }}
             />
           )}
           <Link to={`/users/edit/${cell.row.values.id}`}>

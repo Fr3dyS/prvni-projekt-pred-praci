@@ -1,20 +1,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthProvider';
 
 type MenuItem = {
     title: string;
     link: string;
 };
 
-const menuItems: MenuItem[] = [
-    { title: 'Home', link: '/' },
-    { title: 'About', link: '/about' },
-    { title: 'Contact', link: '/contact' },
-];
-
 export default function AuthNavbarLayout() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeLink, setActiveLink] = useState(location.pathname);
+    const { logout } = useAuth();
 
     const handleLinkClick = (link: string) => {
         setActiveLink(link);
@@ -26,34 +22,6 @@ export default function AuthNavbarLayout() {
 
     return (
         <div className="flex flex-col md:flex-row md:min-h-screen w-full">
-
-            {/* Mobile menu */}
-            <div className="md:hidden flex justify-end pr-4 pt-4">
-                <button
-                    onClick={toggleMenu}
-                    className="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none"
-                >
-                    <svg
-                        className="h-6 w-6 fill-current"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            className={`${isOpen ? 'hidden' : 'block'}`}
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M3 6h18v3H3V6zm0 5h18v3H3v-3zm0 5h18v3H3v-3z"
-                        />
-                        <path
-                            className={`${isOpen ? 'block' : 'hidden'}`}
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M8 7v10H6V7h2zm4 0v10h-2V7h2zm4 0v10h-2V7h2z"
-                        />
-                    </svg>
-                </button>
-            </div>
-
             {/* Desktop menu */}
             <div className="hidden md:flex md:flex-col md:w-56 md:min-h-screen md:border-r md:border-gray-200">
                 <div className="flex items-center justify-center md:flex-shrink-0 h-16">
@@ -100,54 +68,13 @@ export default function AuthNavbarLayout() {
                     >
                         edit user
                     </Link>
-                </div>
-            </div>
-
-            {/* Overlay */}
-            <div
-                className={`${isOpen ? 'block' : 'hidden'
-                    } fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 z-50`}
-            >.</div>
-
-            {/* Mobile menu */}
-
-            <div
-                className={`${isOpen ? 'block' : 'hidden'
-                    } md:hidden fixed top-0 left-0 w-full h-full bg-white shadow z-50`}
-            >
-                <div className="flex justify-between items-center px-4 py-2 border-b border-gray-200">
-                    <span className="text-xl font-bold text-gray-800">Menu</span>
                     <button
-                        onClick={toggleMenu}
-                        className="block text-gray-800 hover:text-gray-600 focus:text-gray-600 focus:outline-none"
+                        className='rounded text-red-500 border-2 w-min px-4 border-red-500 bg-transparent hover:bg-red-500 hover:text-white'
+                        type='button'
+                        onClick={logout}
                     >
-                        <svg
-                            className="h-6 w-6 fill-current"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M18 6L6 18M6 6l12 12"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
+                        Logout
                     </button>
-                </div>
-                <div className="flex-grow py-4">
-                    {menuItems.map((item, index) => (
-                        <a
-                            key={index}
-                            href={item.link}
-                            className="block py-2 px-4 text-gray-800 hover:bg-gray-100"
-                        >
-                            {item.title}
-                        </a>
-                    ))}
                 </div>
             </div>
         </div>

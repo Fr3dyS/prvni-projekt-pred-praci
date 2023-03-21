@@ -7,7 +7,6 @@ type Props = {
   children: ReactNode;
 };
 
-  // TODO: implementujte layout pro přihlášenou část aplikace (stránky: overview, user list, user detail, create/edit user)
 
 export default function Layout({ children }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

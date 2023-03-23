@@ -1,5 +1,4 @@
 import { HomeIcon } from '@heroicons/react/24/outline';
-import DetailUserScreen from '../pages/DetailUserScreen';
 import EditUserScreen from '../pages/EditUserScreen';
 import LoginScreen from '../pages/LoginScreen';
 import NewUserScreen from '../pages/NewUserScreeen';
@@ -27,11 +26,6 @@ export const routes: Array<NavRoute> = [
     path: '/users',
     restricted: true,
     component: UserListScreen,
-  },
-  {
-    path: '/users/:id',
-    restricted: true,
-    component: DetailUserScreen,
   },
   {
     path: '/users/new',

@@ -1,33 +1,41 @@
 import React, { useContext, useState, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import AuthProvider from '../../context/AuthProvider';
 import AuthNavbarLayout from './Navbar/AuthNavbarLayout';
+import { useAuth } from '../../context/AuthProvider';
 
 type Props = {
   children: ReactNode;
 };
 
-
 export default function Layout({ children }: Props) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const { user, logout } = useContext(AuthProvider);
-  //  const history = useHistory();
-
-  const handleMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleLogout = () => {
-    //  logout();
-    // history.push('/login');
-  };
-
   return (
-    <div>
-      <AuthNavbarLayout />
-      <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8" >
-        <div>{children}</div>
-      </main>
+    <div className="flex min-h-screen flex-col">
+      <div className="mb-2 md:border-b py-2">
+        <div className="container mx-auto">
+          <div className="flex justify-between gap-2">
+            <img
+              className="w-32 ml-2"
+              src="https://refine.dev/img/refine_logo.png"
+              alt="Logo"
+            />
+            <ul className="hidden md:flex">
+              {menuItems.map(({ name, route }) => (
+                <li key={name} className="float-left">
+                  <Link
+                    className="flex cursor-pointer items-center gap-1 rounded-sm px-2 py-1 mt-2 capitalize
+                                decoration-indigo-500 decoration-2 underline-offset-1 transition duration-300 ease-in-out"
+                    to={name}
+                  >
+                    <span className="text-green-500">{name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="bg-white">{children}</div>
     </div>
   );
+
 }

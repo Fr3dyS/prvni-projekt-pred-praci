@@ -7,76 +7,71 @@ type MenuItem = {
     link: string;
 };
 
-export default function AuthNavbarLayout() {
+export default function AuthNavbarLayout({ darkMode }: { darkMode: boolean }) {
     const [isOpen, setIsOpen] = useState(false);
     const [activeLink, setActiveLink] = useState(location.pathname);
     const { logout } = useAuth();
+    const { user } = useAuth();
+    const toggle = () => setIsOpen(prevState => !prevState);
 
-    const handleLinkClick = (link: string) => {
-        setActiveLink(link);
-    };
-
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
+    const bgColor = darkMode ? 'bg-gray-500' : 'bg-slate-400';
+    const textColor = darkMode ? 'text-gray-200' : 'text- -700';
+    const bgTextColor = darkMode ? 'bg-gray-700' : 'bg-gray-700';
 
     return (
-        <div className="flex flex-col md:flex-row md:min-h-screen w-full">
-            {/* Desktop menu */}
-            <div className="hidden md:flex md:flex-col md:w-56 md:min-h-screen md:border-r md:border-gray-200">
-                <div className="flex items-center justify-center md:flex-shrink-0 h-16">
-                    <span className="text-xl font-bold text-gray-800">Menu</span>
+        <nav className="bg-gray-800 py-2 md:py-4">
+            <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row md:items-center justify-between">
+                <div className="md:flex md:flex-col md:items-start md:justify-center">
+                    <Link to="/" className="text-white font-bold text-xl mb-2 md:mb-0">
+                        Můj web
+                    </Link>
+                    <div className="hidden md:block">
+                        <Link to="/value1" className="text-gray-300 py-2 px-4 hover:text-white">
+                            Hodnota 1
+                        </Link>
+                        <Link to="/value2" className="text-gray-300 py-2 px-4 hover:text-white">
+                            Hodnota 2
+                        </Link>
+                        <Link to="/value3" className="text-gray-300 py-2 px-4 hover:text-white">
+                            Hodnota 3
+                        </Link>
+                    </div>
                 </div>
-                <div className="flex-grow md:flex-shrink-0">
-                    <Link
-                        to="/"
-                        className={`text-black py-2 px-4 hover:text-gray-300 ${activeLink === '/' && 'bg-white rounded hover:bg-gray-100 text-gray-800 text-stone-900 hover:text-stone-400'
-                            }`}
-                        onClick={() => handleLinkClick('/')}
-                    >
-                        Overview
-                    </Link>
-                    <Link
-                        to="/users"
-                        className={`text-black py-2 px-4 ml-4 hover:text-gray-300 ${activeLink === '/users' && 'bg-white rounded hover:bg-gray-100 text-gray-800 text-stone-900 hover:text-stone-400'
-                            }`}
-                        onClick={() => handleLinkClick('/users')}
-                    >
-                        user list
-                    </Link>
-                    <Link
-                        to="/users/:id"
-                        className={`text-black py-2 px-4 hover:text-gray-300 ${activeLink === '/users/:id' && 'bg-white rounded hover:bg-gray-100 text-gray-800 text-stone-900 hover:text-stone-400'
-                            }`}
-                        onClick={() => handleLinkClick('/users/:id')}
-                    >
-                        user detail
-                    </Link>
-                    <Link
-                        to="/users/new"
-                        className={`text-black py-2 px-4 ml-4 hover:text-gray-300 ${activeLink === '/users/new' && 'bg-white rounded hover:bg-gray-100 text-gray-800 text-stone-900 hover:text-stone-400'
-                            }`}
-                        onClick={() => handleLinkClick('/users/new')}
-                    >
-                        create user
-                    </Link>
-                    <Link
-                        to="/users/edit/:id"
-                        className={`text-black py-2 px-4 ml-4 hover:text-gray-300 ${activeLink === '/users/edit/:id' && 'bg-white rounded hover:bg-gray-100 text-gray-800 text-stone-900 hover:text-stone-400'
-                            }`}
-                        onClick={() => handleLinkClick('/users/edit/:id')}
-                    >
-                        edit user
-                    </Link>
+                <div className="flex md:hidden">
                     <button
-                        className='rounded text-red-500 border-2 w-min px-4 border-red-500 bg-transparent hover:bg-red-500 hover:text-white'
-                        type='button'
-                        onClick={logout}
+                        type="button"
+                        className="text-gray-500 hover:text-white focus:outline-none focus:text-white"
                     >
-                        Logout
+                        <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+                        </svg>
+                    </button>
+                </div>
+                <div className="hidden md:flex md:items-center">
+                    <div>
+                        Přihlášen jako: {user?.username}
+                    </div>
+                    <button type='button' onClick={logout} className='text-white py-2 px-4 ml-4 hover:text-gray-300 bg-white text-zinc-900 rounded text-slate-900 text-stone-900 hover:text-zinc-600'>
+                        logout
                     </button>
                 </div>
             </div>
-        </div>
+            <div className="hidden md:hidden">
+                <div className="px-2 pt-2 pb-3">
+                    <Link
+                        to="/login"
+                        className="block text-white py-2 px-4 hover:text-gray-300"
+                    >
+                        Přihlášení
+                    </Link>
+                    <Link
+                        to="/register"
+                        className="block text-white py-2 px-4 mt-1 hover:text-gray-300"
+                    >
+                        Registrace
+                    </Link>
+                </div>
+            </div>
+        </nav>
     );
 }

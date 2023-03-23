@@ -125,7 +125,9 @@ export default function EditUserScreen() {
                         </div>
                     </div>
                 ) : (
-                    <p>Loading...</p>
+                    <div className="flex justify-center items-center h-full">
+                        <h1>Loading....</h1>
+                    </div>
                 )}
             </div>
         </Layout>

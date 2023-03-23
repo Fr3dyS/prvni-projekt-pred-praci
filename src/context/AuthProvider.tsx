@@ -25,8 +25,8 @@ const defaultValues: AuthContextType = {
   user: null,
   token: null,
   isAuthenticated: false,
-  login: (token: string) => {},
-  logout: () => {},
+  login: (token: string) => { },
+  logout: () => { },
 };
 
 // vytvoření kontextu pro udržení globálního stavu aplikace (pro držení informace o přihlášení)
@@ -39,6 +39,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     Keys.IS_AUTHENTICATED,
     false,
   );
+
+  console.log(user);
 
   // revalidace tokenu po otevření aplikace + odhlášení pokud bude token nevalidní
   const revalidateToken = async () => {
@@ -91,3 +93,4 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+

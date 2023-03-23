@@ -30,7 +30,7 @@ export default function UnauthNavbarLayout() {
                 <div className="hidden md:flex md:items-center">
                     <Link
                         to="/login"
-                        className={`text-white py-2 px-4 hover:text-gray-300 ${activeLink === '/login' && 'bg-white rounded text-slate-900 text-stone-900'
+                        className={`text-white py-2 px-4 hover:text-gray-300 ${activeLink === '/login' && 'bg-white text-zinc-900 rounded text-slate-900 text-stone-900 hover:text-zinc-600'
                             }`}
                         onClick={() => handleLinkClick('/login')}
                     >
@@ -38,7 +38,7 @@ export default function UnauthNavbarLayout() {
                     </Link>
                     <Link
                         to="/register"
-                        className={`text-white py-2 px-4 ml-4 hover:text-gray-300 ${activeLink === '/register' && 'bg-white rounded text-slate-900 text-stone-900'
+                        className={`text-white py-2 px-4 ml-4 hover:text-gray-300 ${activeLink === '/register' && 'bg-white text-zinc-900 rounded text-slate-900 text-stone-900 hover:text-zinc-600'
                             }`}
                         onClick={() => handleLinkClick('/register')}
                     >

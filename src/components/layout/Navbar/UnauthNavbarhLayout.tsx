@@ -47,7 +47,7 @@ export default function UnauthNavbarLayout() {
                 </div>
             </div>
 
-            <div className="hidden md:hidden">
+            <div className="md:hidden">
                 <div className="px-2 pt-2 pb-3">
                     <Link
                         to="/login"

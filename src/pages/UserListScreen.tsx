@@ -2,6 +2,7 @@ import { HomeIcon, TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outli
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CellProps } from 'react-table';
+import { toast, ToastContainer } from 'react-toastify';
 import Icon from '../components/icon/Icon';
 import Layout from '../components/layout/AuthLayout';
 import Modal from '../components/layout/ModalLayout';
@@ -131,10 +132,18 @@ export default function UserListScreen() {
               onConfirm={() => {
                 deleteUser(cell.row.values.id); // Call the deleteUser function with the user ID
                 setShowModal(false);
+                toast.success('User successfully delete.', { // zobrazení hlášky o úspěšném smazaní uživatele
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 2000, // milliseconds
+                });
               }}
               onCancel={() => {
                 setDeleteUserId(null); // Reset the deleteUserId state variable
                 setShowModal(false);
+                toast.warning('Nothing was deleted.', { // zobrazení hlášky o ukončení modal boxu bez smazaní uživatele
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 2000, // milliseconds
+                });
               }}
             />
           )}
@@ -151,14 +160,13 @@ export default function UserListScreen() {
 
   return (
     <Layout>
+      <ToastContainer />
       {columns ? (
         <div className="min-h-screen bg-gray-100">
           <div className="py-12 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">User list</h1>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden w-full">
-                <DataTable data={users} columns={columns} />
-              </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">User list</h1>
+            <div className="bg-white shadow-md rounded-lg overflow-hidden w-full">
+              <DataTable data={users} columns={columns} />
             </div>
           </div>
         </div>

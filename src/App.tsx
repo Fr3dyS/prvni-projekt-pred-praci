@@ -21,14 +21,14 @@ function App() {
           <Route path='/users/new' element={<PrivateRoute component={<NewUserScreen />} />} />{' '}
           {/* edit uživatele - restricted */}
           <Route path='/users/edit/:id' element={<PrivateRoute component={<EditUserScreen />} />} />{' '}
-          {/* registrace uzivatelu - restricted */}
+          {/* registrace uzivatelu */}
           <Route path='/register' element={<RegisterScreen />} />{' '}
           {/* stránka, která nevyžaduje přihlášeného uživatele */}
           <Route path='/login' element={<LoginScreen />} />{' '}
           {/* stránka, která vyžaduje přihlášeného uživatele - tzn. "restricted" */}
           <Route path='/' element={<PrivateRoute component={<OverviewScreen />} />} />{' '}
           <Route path='/users' element={<PrivateRoute component={<UserListScreen />} />} />{' '}
-          {/* TODO: připravte 404: Not Found routu pro případy, kdy uživatel zkusí přejít na neexistující URL (využijte souboru s definicemi jednotlivých rout) */}
+          {/* 404: Not Found stranka */}
           <Route path='*' element={<ErorrpageScreen />} />{' '}
         </Routes>
       </BrowserRouter>

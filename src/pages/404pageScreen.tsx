@@ -7,7 +7,7 @@ export default function ErorrpageScreen() {
             <h1 className="text-6xl font-bold text-gray-800 mb-4">404</h1>
             <p className="text-2xl font-medium text-gray-600 mb-8">Stránka nebyla nalezena</p>
             <Link to={'/'}>
-                <button className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-md transition duration-300 ease-in-out">
+                <button className="bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full text-white font-semibold px-8 py-2 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none mx-auto">
                     Zpět na úvodní stránku
                 </button>
             </Link>

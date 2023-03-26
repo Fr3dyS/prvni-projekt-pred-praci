@@ -2,9 +2,6 @@ import { useEffect, useState } from 'react';
 import Layout from '../components/layout/AuthLayout';
 import { httpGet } from '../utils/http-client';
 
-interface UsersCount {
-  total: number;
-}
 
 type UsersRole = {
   id: number;
@@ -36,7 +33,6 @@ function getRoleColor(role: RoleColor | string) {
   }
 
 }
-
 
 /**
  * Komponenta představující stránku info hodnotami o uživatelích

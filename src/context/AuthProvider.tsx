@@ -20,6 +20,7 @@ interface TokenData {
   exp: number;
 }
 
+
 // výchozí hodnoty kontextu
 const defaultValues: AuthContextType = {
   user: null,
@@ -40,7 +41,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     false,
   );
 
-  console.log(user);
 
   // revalidace tokenu po otevření aplikace + odhlášení pokud bude token nevalidní
   const revalidateToken = async () => {
@@ -48,7 +48,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       const res = await httpGet('auth/refresh-token', {
         headers: { Authorization: token },
       });
-      console.log({ revalidateRes: res });
       if (res.status === 200) {
         const token = res.data.payload.accessToken;
         setToken(token);

@@ -63,6 +63,16 @@ export default function UserListScreen() {
     const res = await httpDelete(`users/${id}`);
     if (res.status === 200) {
       setUsers(users.filter((user) => user.id !== id));
+      toast.success('User successfully delete.', { // zobrazení hlášky o úspěšném smazaní uživatele
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000, // milliseconds
+      });
+    }  if (res.status === 403) {
+      // opravnění
+      toast.error('User does not have delete permissions.', { // zobrazení hlášky o úspěšném smazaní uživatele
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000, // milliseconds
+      });
     }
   }
 
@@ -132,10 +142,7 @@ export default function UserListScreen() {
               onConfirm={() => {
                 deleteUser(cell.row.values.id); // Call the deleteUser function with the user ID
                 setShowModal(false);
-                toast.success('User successfully delete.', { // zobrazení hlášky o úspěšném smazaní uživatele
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 2000, // milliseconds
-                });
+
               }}
               onCancel={() => {
                 setDeleteUserId(null); // Reset the deleteUserId state variable

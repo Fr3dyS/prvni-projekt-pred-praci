@@ -10,6 +10,5 @@ interface Props {
 export default function PrivateRoute({ component }: Props) {
   const { isAuthenticated } = useAuth();
   const Component = () => component;
-  console.log({ isAuthenticated });
   return isAuthenticated ? <Component /> : <Navigate to='/login' />;
 }

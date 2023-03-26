@@ -7,13 +7,9 @@ import { httpGet, httpPost, httpPut } from '../utils/http-client';
 import Layout from '../components/layout/AuthLayout';
 import FormLayout from '../components/layout/FormLayout';
 import { toast, ToastContainer } from 'react-toastify';
+import { User } from '../types/user.types';
 
-interface User {
-    firstName: string;
-    lastName: string;
-    username: string;
-    role: string;
-}
+
 
 
 export default function EditUserScreen() {
@@ -74,11 +70,11 @@ export default function EditUserScreen() {
                         <div className="max-w-7xl mx-auto ">
                             <div className="bg-white shadow-md rounded-lg overflow-hidden w-full pl-4 pr-4 pb-4 pt-4">
                                 <Formik initialValues={{
-                                    id: id?.toString(),
                                     username: user.username,
                                     firstName: user.firstName,
                                     lastName: user.lastName,
                                     role: user.role,
+                                    id: user.id,
                                 }} validationSchema={validationSchema} onSubmit={handleSubmit}>
                                     {({ errors, touched }) => (
                                         <Form>

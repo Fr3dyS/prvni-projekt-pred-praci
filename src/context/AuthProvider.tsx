@@ -15,7 +15,7 @@ export interface AuthContextType {
 }
 
 interface TokenData {
-  user: User;
+    user: User;
   iat: number;
   exp: number;
 }

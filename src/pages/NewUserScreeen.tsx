@@ -101,17 +101,7 @@ export default function NewUserScreen() {
                                 <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
                             </div>
                             <div className='mb-4'>
-                                <Field
-                                    as="select"
-                                    className="rounded-full px-4 py-2 bg-gray-100 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    name="role"
-                                >
-                                    <option value="Admin">Admin</option>
-                                    <option value="ghost">ghost</option>
-                                    <option value="technician">technician</option>
-                                    <option value="asset">asset</option>
-                                    <option value="manager">manager</option>
-                                </Field>
+                                <FormLayout type='text' name='role' placeholder='role' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
                             </div>
 
                             <button

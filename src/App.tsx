@@ -10,6 +10,7 @@ import RegisterScreen from './pages/RegisterScreen';
 import NewUserScreen from './pages/NewUserScreeen';
 import EditUserScreen from './pages/EditUserScreen';
 import ErorrpageScreen from './pages/404pageScreen';
+import DetailUserScreen from './pages/DetailUserScreen';
 
 
 function App() {
@@ -27,7 +28,10 @@ function App() {
           <Route path='/login' element={<LoginScreen />} />{' '}
           {/* stránka, která vyžaduje přihlášeného uživatele - tzn. "restricted" */}
           <Route path='/' element={<PrivateRoute component={<OverviewScreen />} />} />{' '}
+          {/* tabulka uzivatelu */}
           <Route path='/users' element={<PrivateRoute component={<UserListScreen />} />} />{' '}
+          {/* detail uzivatelu */}
+          <Route path='/users/detail/:id' element={<PrivateRoute component={<DetailUserScreen />} />} />{' '}
           {/* 404: Not Found stranka */}
           <Route path='*' element={<ErorrpageScreen />} />{' '}
         </Routes>

@@ -1,5 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useAuth } from '../context/AuthProvider';
@@ -8,8 +8,6 @@ import Layout from '../components/layout/AuthLayout';
 import FormLayout from '../components/layout/FormLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import { User } from '../types/user.types';
-
-
 
 
 export default function EditUserScreen() {
@@ -123,13 +121,15 @@ export default function EditUserScreen() {
                                                 </Field>
                                                 <ErrorMessage name="role" component="div" className="text-red-500 mt-1" />
                                             </div>
+                                            <div className="flex justify-between">
+                                                <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out" type="submit">
+                                                    Save Changes
+                                                </button>
+                                                <Link to={'/users/'} className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md text-sm font-medium ml-auto mb-2 transition-colors duration-300 ease-in-out">
+                                                    Zpět
+                                                </Link>
+                                            </div>
 
-                                            <button
-                                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                                type="submit"
-                                            >
-                                                Save Changes
-                                            </button>
                                         </Form>
                                     )}
                                 </Formik>

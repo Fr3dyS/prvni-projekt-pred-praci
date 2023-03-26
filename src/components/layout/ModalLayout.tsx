@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import 'tailwindcss/tailwind.css';
 
 interface Props {

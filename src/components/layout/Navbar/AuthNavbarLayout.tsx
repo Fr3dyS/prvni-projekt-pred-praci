@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthProvider';
 
-
 export default function AuthNavbarLayout() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeLink, setActiveLink] = useState(location.pathname);
@@ -10,8 +9,15 @@ export default function AuthNavbarLayout() {
     const { user } = useAuth();
     const toggle = () => setIsOpen(prevState => !prevState);
 
-    return (
-        <nav className="bg-gray-800 shadow-lg">
+
+    const [bgColor, setBgColor] = useState('bg-gray-800');
+
+    const handleColorChange = (color: string) => {
+        setBgColor(color);
+    };
+
+        return (
+        <nav className={`${bgColor} shadow-lg`}>
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between h-16">
                 <div className="flex items-center">
                     <Link to="/" className="text-white font-bold text-xl">
@@ -35,22 +41,25 @@ export default function AuthNavbarLayout() {
                     <div className="flex items-center ml-6">
                         <Link
                             to="/"
-                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${activeLink === '/' && 'bg-white text-gray-800'
+                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${bgColor === 'bg-gray-800' && 'bg-white text-gray-800'
                                 }`}
+                            onClick={() => handleColorChange('bg-gray-800')}
                         >
                             Overview
                         </Link>
                         <Link
                             to="/users"
-                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${activeLink === '/users' && 'bg-white text-gray-800'
+                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${bgColor === 'bg-blue-800' && 'bg-white text-gray-800'
                                 }`}
+                            onClick={() => handleColorChange('bg-blue-800')}
                         >
                             User List
                         </Link>
                         <Link
                             to="/users/new"
-                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${activeLink === '/users/new' && 'text-black bg-white text-gray-800'
+                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${bgColor === 'bg-green-800' && 'text-black bg-white text-gray-800'
                                 }`}
+                            onClick={() => handleColorChange('bg-green-800')}
                         >
                             Create New User
                         </Link>

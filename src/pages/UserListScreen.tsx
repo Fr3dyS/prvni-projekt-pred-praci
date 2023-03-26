@@ -1,4 +1,4 @@
-import { HomeIcon, TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, TrashIcon, PencilSquareIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CellProps } from 'react-table';
@@ -9,6 +9,7 @@ import Modal from '../components/layout/ModalLayout';
 import DataTable from '../components/table/DataTable';
 import { useAuth } from '../context/AuthProvider';
 import { httpDelete, httpGet } from '../utils/http-client';
+
 
 /**
 
@@ -50,6 +51,10 @@ export default function UserListScreen() {
   const [users, setUsers] = useState<Array<Users>>([]); // State pro uchování seznamu uživatelů
   const [showModal, setShowModal] = useState(false); // State pro zobrazení modálního okna pro smazání uživatele
   const [deleteUserId, setDeleteUserId] = useState<number | null>(null); // State pro uchování ID uživatele, který bude smazán
+  const [role, setRole] = useState<string | undefined>('');
+
+  const { user } = useAuth();
+
   // Funkce pro získání dat ze serveru
   const fetchData = async () => {
     const res = await httpGet('users?limit=1000');
@@ -67,7 +72,7 @@ export default function UserListScreen() {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000, // milliseconds
       });
-    }  if (res.status === 403) {
+    } if (res.status === 403) {
       // opravnění
       toast.error('User does not have delete permissions.', { // zobrazení hlášky o úspěšném smazaní uživatele
         position: toast.POSITION.TOP_CENTER,
@@ -78,6 +83,7 @@ export default function UserListScreen() {
 
   useEffect(() => {
     fetchData();
+    setRole(user?.role);
   }, []);
 
   // Pole s definicemi sloupců pro zobrazení v DataTable
@@ -121,48 +127,68 @@ export default function UserListScreen() {
         />
       ),
     },
-    {
-      Header: 'Actions',
-      accessor: 'buttons',
-      // vlastní render
-      Cell: ({ cell }: CellProps<Users>) => (
-        <div className='flex flex-row justify-center'>
-          <Icon
-            icon={TrashIcon}
-            className='h-5 w-5 text-red-500 cursor-pointer'
-            onClick={() => {
-              setDeleteUserId(cell.row.values.id); // Set the user ID to be deleted
-              setShowModal(true);
-            }}
-          />
-          {showModal && deleteUserId === cell.row.values.id && ( // Only show the modal for the current user ID
-            <Modal
-              message='Opravdu chcete smazat tohoto uživatele?'
-              confirmText='Smazat'
-              onConfirm={() => {
-                deleteUser(cell.row.values.id); // Call the deleteUser function with the user ID
-                setShowModal(false);
+    role === 'admin' || role === 'moderator'
+      ?
+      {
 
-              }}
-              onCancel={() => {
-                setDeleteUserId(null); // Reset the deleteUserId state variable
-                setShowModal(false);
-                toast.warning('Nothing was deleted.', { // zobrazení hlášky o ukončení modal boxu bez smazaní uživatele
-                  position: toast.POSITION.TOP_CENTER,
-                  autoClose: 2000, // milliseconds
-                });
-              }}
-            />
-          )}
-          <Link to={`/users/edit/${cell.row.values.id}`}>
+        Header: 'Actions',
+        accessor: 'buttons',
+        // vlastní render
+        Cell: ({ cell }: CellProps<Users>) => (
+          <div className='flex flex-row justify-center'>
             <Icon
-              icon={PencilSquareIcon}
+              icon={TrashIcon}
               className='h-5 w-5 text-red-500 cursor-pointer'
+              onClick={() => {
+                setDeleteUserId(cell.row.values.id); // Set the user ID to be deleted
+                setShowModal(true);
+              }}
             />
-          </Link>
-        </div>
-      ),
-    },
+            {showModal && deleteUserId === cell.row.values.id && ( // Only show the modal for the current user ID
+              <Modal
+                message='Opravdu chcete smazat tohoto uživatele?'
+                confirmText='Smazat'
+                onConfirm={() => {
+                  deleteUser(cell.row.values.id); // Call the deleteUser function with the user ID
+                  setShowModal(false);
+                }}
+                onCancel={() => {
+                  setDeleteUserId(null); // Reset the deleteUserId state variable
+                  setShowModal(false);
+                  toast.warning('Nothing was deleted.', { // zobrazení hlášky o ukončení modal boxu bez smazaní uživatele
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000, // milliseconds
+                  });
+                }}
+              />
+            )}
+            <Link to={`/users/edit/${cell.row.values.id}`}>
+              <Icon
+                icon={PencilSquareIcon}
+                className='h-5 w-5 text-red-500 cursor-pointer'
+              />
+            </Link>
+            <Link to={`/users/detail/${cell.row.values.id}`}>
+            <Icon
+                icon={InformationCircleIcon}
+                className='h-5 w-5 text-red-500 cursor-pointer'
+              /> 
+            </Link>
+          </div>
+        ),
+      }
+      : {
+        Header: 'Actions',
+        accessor: 'buttons',
+        // vlastní render
+        Cell: ({ cell }: CellProps<Users>) => (
+          <div className='flex flex-row justify-center'>
+            <Link to={`/users/edit/${cell.row.values.id}`}>
+              Detail uživatele
+            </Link>
+          </div>
+        ),
+      }
   ];
 
   return (

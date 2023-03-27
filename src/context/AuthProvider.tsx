@@ -15,7 +15,7 @@ export interface AuthContextType {
 }
 
 interface TokenData {
-    user: User;
+  user: User;
   iat: number;
   exp: number;
 }
@@ -60,6 +60,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
+
   const parseUserData = (token: string) => {
     const decodedData: TokenData = jwtDecode(token);
     setUser(decodedData.user);
@@ -73,12 +74,14 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const login = useCallback((token: string) => {
     setToken(token);
     setAuthenticated(true);
+    parseUserData(token);
   }, []);
 
   // odhlášení uživatele z aplikace
   const logout = () => {
     setToken('');
     setAuthenticated(false);
+    setUser(null);
   };
 
   return (

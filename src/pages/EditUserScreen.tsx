@@ -60,7 +60,7 @@ export default function EditUserScreen() {
     return (
         <Layout>
             <ToastContainer />
-            <div className="min-h-screen bg-gray-100" style={{ overflowX: 'hidden' }}>
+            <div className="min-h-screen bg-gray-100">
 
                 {user ? (
                     <div className="py-12 sm:px-6 lg:px-8">
@@ -81,14 +81,12 @@ export default function EditUserScreen() {
                                                     ID
                                                 </label>
                                                 <FormLayout type='number' name='id' placeholder='id' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled />
-                                                <ErrorMessage name="id" component="div" className="text-red-500 mt-1" />
                                             </div>
                                             <div className="mb-4">
                                                 <label className="block text-gray-700 font-bold mb-2" htmlFor="firstName">
                                                     First Name
                                                 </label>
                                                 <FormLayout type='text' name='firstName' placeholder='Enter first name' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                                <ErrorMessage name="firstName" component="div" className="text-red-500 mt-1" />
                                             </div>
                                             <div className="mb-4">
                                                 <label className="block text-gray-700 font-bold mb-2" htmlFor="lastName">

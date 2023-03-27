@@ -1,4 +1,6 @@
 import { HomeIcon } from '@heroicons/react/24/outline';
+import ErorrpageScreen from '../pages/404pageScreen';
+import DetailUserScreen from '../pages/DetailUserScreen';
 import EditUserScreen from '../pages/EditUserScreen';
 import LoginScreen from '../pages/LoginScreen';
 import NewUserScreen from '../pages/NewUserScreeen';
@@ -36,5 +38,14 @@ export const routes: Array<NavRoute> = [
     path: '/users/edit/:id',
     restricted: true,
     component: EditUserScreen,
+  },
+  {
+    path: '/users/detail/:id',
+    restricted: true,
+    component: DetailUserScreen,
+  },
+  {
+    path: '*',
+    component: ErorrpageScreen,
   }
 ];

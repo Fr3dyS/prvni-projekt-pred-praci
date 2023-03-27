@@ -4,13 +4,14 @@ import { Link, useLocation } from 'react-router-dom';
 export default function UnauthNavbarLayout() {
     const location = useLocation();
     const [activeLink, setActiveLink] = useState(location.pathname);
+    const [bgColor, setBgColor] = useState('gray-800');
 
     const handleLinkClick = (link: string) => {
         setActiveLink(link);
     };
 
     return (
-        <nav className="bg-gray-800 py-2 md:py-4">
+        <nav className={`bg-${bgColor} py-2 md:py-4`}>
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
                 <Link to="/" className="text-white font-bold text-xl">
                     Můj web
@@ -44,6 +45,28 @@ export default function UnauthNavbarLayout() {
                     >
                         Registrace
                     </Link>
+
+                    <button
+                        className="bg-white text-gray-800 py-2 px-4 rounded ml-4"
+                        onClick={() => setBgColor('gray-800')}
+                    >
+                        Bílé
+                    </button>
+
+                    <button
+                        className="bg-black text-white py-2 px-4 rounded ml-4"
+                        onClick={() => setBgColor('black')}
+                    >
+                        Černé
+                    </button>
+
+                    <button
+                        className="bg-red-500 text-white py-2 px-4 rounded ml-4"
+                        onClick={() => setBgColor('red-500')}
+                    >
+                        Červené
+                    </button>
+
                 </div>
             </div>
 

@@ -1,6 +1,12 @@
+import { ComponentType } from 'react';
+
+type ReactComponent = ComponentType<any>;
+
+
+
 export interface NavRoute {
-  icon?: object;
+  icon?: ReactComponent;
   path: string;
-  component: object;
+  component: ReactComponent;
   restricted?: boolean;
 }

@@ -15,23 +15,19 @@ interface RoleColor {
   role: string;
 }
 
-function getRoleColor(role: RoleColor | string) {
-  if (typeof role === 'string') {
-    // Pokud je role typu string, vrátíme defaultní hodnotu.
-    switch (role) {
-      case 'ghost':
-        return 'bg-gray-500';
-      case 'asset':
-        return 'bg-blue-500';
-      case 'technician':
-        return 'bg-emerald-500';
-      case 'manager':
-        return 'bg-lime-500';
-      default:
-        return 'bg-red-500';
-    }
+function getRoleColor(role: string) {
+  switch (role) {
+    case 'ghost':
+      return 'bg-gray-500';
+    case 'asset':
+      return 'bg-blue-500';
+    case 'technician':
+      return 'bg-emerald-500';
+    case 'manager':
+      return 'bg-lime-500';
+    default:
+      return 'bg-red-500';
   }
-
 }
 
 /**

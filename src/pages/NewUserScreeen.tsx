@@ -11,8 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from '../components/layout/AuthLayout';
 
 
-interface values {
-    id?: number;
+interface Values {
     firstName: string;
     lastName: string;
     username: string;
@@ -39,13 +38,12 @@ export default function NewUserScreen() {
     });
 
     // funkce pro odeslání přihlašovacích údajů pro přihlášení uživatele v aplikaci
-    const handleSubmit = async (values: values) => {
+    const handleSubmit = async (values: Values) => {
         const { firstName, lastName, password, username, role } = values;
-        console.log(values);
 
         try {
             const res = await httpPost('users', { firstName, lastName, username, password, role });
-            if (res.status === 200) {
+            if (res.status === 201) {
                 toast.success('Regiser new user successful!', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 2000, // milliseconds
@@ -69,7 +67,6 @@ export default function NewUserScreen() {
         return <Navigate to={'/users'} />;
     }
 
-
     return (
         <Layout>
             <ToastContainer />
@@ -88,22 +85,23 @@ export default function NewUserScreen() {
                 >
                     {({ errors, touched }) => (
                         <Form className='flex flex-col'>
+                            <FormLayout type='text' name='firstName' placeholder='first name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
+                            <FormLayout type='text' name='lastName' placeholder='last name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
+                            <FormLayout type='text' name='username' placeholder='username' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
+                            <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
                             <div className='mb-4'>
-                                <FormLayout type='text' name='firstName' placeholder='first name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
+                                <Field
+                                    as="select"
+                                    className="rounded-full px-4 py-2 bg-gray-100 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    name="role"
+                                >
+                                    <option value="Admin">Admin</option>
+                                    <option value="ghost">ghost</option>
+                                    <option value="technician">technician</option>
+                                    <option value="asset">asset</option>
+                                    <option value="manager">manager</option>
+                                </Field>
                             </div>
-                            <div className='mb-4'>
-                                <FormLayout type='text' name='lastName' placeholder='last name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
-                            </div>
-                            <div className='mb-4'>
-                                <FormLayout type='text' name='username' placeholder='username' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
-                            </div>
-                            <div className='mb-4'>
-                                <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
-                            </div>
-                            <div className='mb-4'>
-                                <FormLayout type='text' name='role' placeholder='role' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
-                            </div>
-
                             <button
                                 className='w-full bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full text-white font-semibold px-8 py-2 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none mx-auto'
                                 type='submit'

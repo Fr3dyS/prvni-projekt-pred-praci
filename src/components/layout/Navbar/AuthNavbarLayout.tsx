@@ -10,14 +10,15 @@ export default function AuthNavbarLayout() {
     const toggle = () => setIsOpen(prevState => !prevState);
 
 
-    const [bgColor, setBgColor] = useState('bg-gray-800');
+    const [bgColor, setBgColor] = useState('');
 
-    const handleColorChange = (color: string) => {
-        setBgColor(color);
+    const handleLinkClick = (link: string) => {
+        setActiveLink(link);
     };
 
-        return (
-        <nav className={`${bgColor} shadow-lg`}>
+
+    return (
+        <nav className='bg-gray-800 shadow-lg'>
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between h-16">
                 <div className="flex items-center">
                     <Link to="/" className="text-white font-bold text-xl">
@@ -41,25 +42,25 @@ export default function AuthNavbarLayout() {
                     <div className="flex items-center ml-6">
                         <Link
                             to="/"
-                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${bgColor === 'bg-gray-800' && 'bg-white text-gray-800'
+                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${activeLink === '/' && 'bg-white text-zinc-900 rounded text-slate-900 text-stone-900 hover:text-zinc-600'
                                 }`}
-                            onClick={() => handleColorChange('bg-gray-800')}
+                            onClick={() => handleLinkClick('/')}
                         >
                             Overview
                         </Link>
                         <Link
                             to="/users"
-                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${bgColor === 'bg-blue-800' && 'bg-white text-gray-800'
+                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${activeLink === '/users' && 'bg-white text-zinc-900 rounded text-slate-900 text-stone-900 hover:text-zinc-600'
                                 }`}
-                            onClick={() => handleColorChange('bg-blue-800')}
+                            onClick={() => handleLinkClick('/users')}
                         >
                             User List
                         </Link>
                         <Link
                             to="/users/new"
-                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${bgColor === 'bg-green-800' && 'text-black bg-white text-gray-800'
+                            className={`text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium ${activeLink === '/users/new' && 'bg-white text-zinc-900 rounded text-slate-900 text-stone-900 hover:text-zinc-600'
                                 }`}
-                            onClick={() => handleColorChange('bg-green-800')}
+                            onClick={() => handleLinkClick('/users/new')}
                         >
                             Create New User
                         </Link>

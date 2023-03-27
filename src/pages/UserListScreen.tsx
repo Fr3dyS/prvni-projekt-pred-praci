@@ -55,6 +55,7 @@ export default function UserListScreen() {
 
   const { user } = useAuth();
 
+  console.log(user?.role)
   // Funkce pro získání dat ze serveru
   const fetchData = async () => {
     const res = await httpGet('users?limit=1000');
@@ -127,68 +128,62 @@ export default function UserListScreen() {
         />
       ),
     },
-    role === 'admin' || role === 'moderator'
-      ?
-      {
-
-        Header: 'Actions',
-        accessor: 'buttons',
-        // vlastní render
-        Cell: ({ cell }: CellProps<Users>) => (
-          <div className='flex flex-row justify-center'>
-            <Icon
-              icon={TrashIcon}
-              className='h-5 w-5 text-red-500 cursor-pointer'
-              onClick={() => {
-                setDeleteUserId(cell.row.values.id); // Set the user ID to be deleted
-                setShowModal(true);
-              }}
-            />
-            {showModal && deleteUserId === cell.row.values.id && ( // Only show the modal for the current user ID
-              <Modal
-                message='Opravdu chcete smazat tohoto uživatele?'
-                confirmText='Smazat'
-                onConfirm={() => {
-                  deleteUser(cell.row.values.id); // Call the deleteUser function with the user ID
-                  setShowModal(false);
-                }}
-                onCancel={() => {
-                  setDeleteUserId(null); // Reset the deleteUserId state variable
-                  setShowModal(false);
-                  toast.warning('Nothing was deleted.', { // zobrazení hlášky o ukončení modal boxu bez smazaní uživatele
-                    position: toast.POSITION.TOP_CENTER,
-                    autoClose: 2000, // milliseconds
-                  });
-                }}
-              />
-            )}
-            <Link to={`/users/edit/${cell.row.values.id}`}>
+    {
+      Header: 'Actions',
+      accessor: 'buttons',
+      // vlastní render
+      Cell: ({ cell }: CellProps<Users>) => (
+        <div className='flex flex-row justify-center'>
+          {user?.role === 'admin' || user?.role === 'manager' ? (
+            <>
               <Icon
-                icon={PencilSquareIcon}
+                icon={TrashIcon}
                 className='h-5 w-5 text-red-500 cursor-pointer'
+                onClick={() => {
+                  setDeleteUserId(cell.row.values.id);
+                  setShowModal(true);
+                }}
               />
-            </Link>
-            <Link to={`/users/detail/${cell.row.values.id}`}>
+              {showModal && deleteUserId === cell.row.values.id && (
+                <Modal
+                  message='Opravdu chcete smazat tohoto uživatele?'
+                  confirmText='Smazat'
+                  onConfirm={() => {
+                    deleteUser(cell.row.values.id);
+                    setShowModal(false);
+                  }}
+                  onCancel={() => {
+                    setDeleteUserId(null);
+                    setShowModal(false);
+                    toast.warning('Nothing was deleted.', {
+                      position: toast.POSITION.TOP_CENTER,
+                      autoClose: 2000,
+                    });
+                  }}
+                />
+              )}
+              {user?.role === 'admin' || user?.role === 'manager' ? (
+                <Link to={`/users/edit/${cell.row.values.id}`}>
+                  <Icon
+                    icon={PencilSquareIcon}
+                    className='h-5 w-5 text-red-500 cursor-pointer'
+                  />
+                </Link>
+              ) : null}
+            </>
+          ) : null}
+
+          <Link to={`/users/detail/${cell.row.values.id}`}>
             <Icon
-                icon={InformationCircleIcon}
-                className='h-5 w-5 text-red-500 cursor-pointer'
-              /> 
-            </Link>
-          </div>
-        ),
-      }
-      : {
-        Header: 'Actions',
-        accessor: 'buttons',
-        // vlastní render
-        Cell: ({ cell }: CellProps<Users>) => (
-          <div className='flex flex-row justify-center'>
-            <Link to={`/users/edit/${cell.row.values.id}`}>
-              Detail uživatele
-            </Link>
-          </div>
-        ),
-      }
+              icon={InformationCircleIcon}
+              className='h-5 w-5 text-red-500 cursor-pointer'
+            />
+          </Link>
+        </div>
+
+
+      ),
+    }
   ];
 
   return (

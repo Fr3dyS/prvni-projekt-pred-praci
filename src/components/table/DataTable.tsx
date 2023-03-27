@@ -54,12 +54,14 @@ export default function DataTable<T extends object>({ columns, data }: Props<T>)
                     >
                       <div className="inline-flex flex-col items-center">
                         {column.render('Header')}
-                        <input
-                          type="text"
-                          name=""
-                          id=""
-                          className="px-2 py-1 border border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md text-center"
-                        />
+                        {colIdx !== 5 && (
+                          <input
+                            type="text"
+                            name=""
+                            id=""
+                            className="px-2 py-1 border border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md text-center"
+                          />
+                        )}
                       </div>
                     </th>
                   ))}

@@ -41,15 +41,13 @@ export default function LoginScreen() {
           login(res.data.payload.accessToken);
         }, 2000);
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      if (err.response.status === 401) {
-        setErrorMessage('Invalid username or password.');
-        toast.error('Invalid username or password!', {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000, // milliseconds
-        });
-      }
+
+      toast.error('Něco si posral!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000, // milliseconds
+      });
     }
   };
 

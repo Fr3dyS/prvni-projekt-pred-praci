@@ -9,11 +9,13 @@ import FormLayout from '../components/layout/FormLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import { User } from '../types/user.types';
 
-
 export default function EditUserScreen() {
     const { id } = useParams<{ id: string }>();
-    const [user, setUser] = useState<User>();
-    const [userEdit, setUserEdit] = useState(false);
+    const [userEdit, setUserEdit] = useState<User>();
+    const [userEdited, setUserEdited] = useState(false);
+    const { userRole } = useAuth();
+    const [role, setRole] = useState('');
+    const { user } = useAuth();
 
     const validationSchema = Yup.object().shape({
         id: Yup.string().required('ID is required'),
@@ -34,27 +36,26 @@ export default function EditUserScreen() {
                     autoClose: 2000, // milliseconds
                 });
                 setTimeout(() => {
-                    setUserEdit(true);
+                    setUserEdited(true);
                 }, 2000);
             }
         } catch (error) {
             console.log(error);
         }
-        console.log(values);
     }
 
     const fetchData = async () => {
         const res = await httpGet(`users/${id}`);
         if (res.status === 200) {
-            setUser(res.data.payload);
+            setUserEdit(res.data.payload);
         }
     };
     useEffect(() => {
         fetchData();
     }, []);
 
-    if (userEdit) {
-        return <Navigate to={'/users'} />;
+    if (userEdit && !(user?.role === 'admin' || user?.role === 'manager' || user?.username === userEdit?.username)) {
+        return <Navigate to={'/'} />;
     }
 
     return (
@@ -62,17 +63,17 @@ export default function EditUserScreen() {
             <ToastContainer />
             <div className="min-h-screen bg-gray-100">
 
-                {user ? (
+                {userEdit ? (
                     <div className="py-12 sm:px-6 lg:px-8">
                         <h1 className="text-3xl font-bold text-gray-900 mb-4">User list</h1>
                         <div className="max-w-7xl mx-auto ">
                             <div className="bg-white shadow-md rounded-lg overflow-hidden w-full pl-4 pr-4 pb-4 pt-4">
                                 <Formik initialValues={{
-                                    username: user.username,
-                                    firstName: user.firstName,
-                                    lastName: user.lastName,
-                                    role: user.role,
-                                    id: user.id,
+                                    username: userEdit.username,
+                                    firstName: userEdit.firstName,
+                                    lastName: userEdit.lastName,
+                                    role: userEdit.role,
+                                    id: userEdit.id,
                                 }} validationSchema={validationSchema} onSubmit={handleSubmit}>
                                     {({ errors, touched }) => (
                                         <Form>
@@ -93,32 +94,31 @@ export default function EditUserScreen() {
                                                     Last Name
                                                 </label>
                                                 <FormLayout type='text' name='lastName' placeholder='Enter last name' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                                <ErrorMessage name="lastName" component="div" className="text-red-500 mt-1" />
                                             </div>
                                             <div className="mb-4">
                                                 <label className="block text-gray-700 font-bold mb-2" htmlFor="username">
                                                     Username
                                                 </label>
                                                 <FormLayout type='text' name='username' placeholder='Enter username' errors={errors} touched={touched} className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                                <ErrorMessage name="username" component="div" className="text-red-500 mt-1" />
                                             </div>
-                                            <div className="mb-4">
-                                                <label className="block text-gray-700 font-bold mb-2" htmlFor="role">
-                                                    role
-                                                </label>
-                                                <Field
-                                                    as="select"
-                                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                    name="role"
-                                                >
-                                                    <option value="Admin">Admin</option>
-                                                    <option value="ghost">ghost</option>
-                                                    <option value="technician">technician</option>
-                                                    <option value="asset">asset</option>
-                                                    <option value="manager">manager</option>
-                                                </Field>
-                                                <ErrorMessage name="role" component="div" className="text-red-500 mt-1" />
-                                            </div>
+                                            {user?.role === 'admin' ? (
+                                                <div className="mb-4">
+                                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="role">
+                                                        role
+                                                    </label>
+                                                    <Field
+                                                        as="select"
+                                                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                        name="role"
+                                                    >
+                                                        <option value="Admin">Admin</option>
+                                                        <option value="ghost">ghost</option>
+                                                        <option value="technician">technician</option>
+                                                        <option value="asset">asset</option>
+                                                        <option value="manager">manager</option>
+                                                    </Field>
+                                                </div>
+                                            ) : null}
                                             <div className="flex justify-between">
                                                 <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out" type="submit">
                                                     Save Changes

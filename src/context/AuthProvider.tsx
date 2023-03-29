@@ -12,6 +12,7 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
+  userRole: (userRole: string) => boolean;
 }
 
 interface TokenData {
@@ -28,6 +29,7 @@ const defaultValues: AuthContextType = {
   isAuthenticated: false,
   login: (token: string) => { },
   logout: () => { },
+  userRole: (userRole: string) => false,
 };
 
 // vytvoření kontextu pro udržení globálního stavu aplikace (pro držení informace o přihlášení)
@@ -84,8 +86,16 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     setUser(null);
   };
 
+  const userRole = useCallback((userRole: string | undefined) => {
+    if (userRole === 'admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated, login, logout, userRole }}>
       {children}
     </AuthContext.Provider>
   );

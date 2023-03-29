@@ -55,7 +55,6 @@ export default function UserListScreen() {
 
   const { user } = useAuth();
 
-  console.log(user?.role)
   // Funkce pro získání dat ze serveru
   const fetchData = async () => {
     const res = await httpGet('users?limit=1000');

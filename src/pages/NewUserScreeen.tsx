@@ -51,6 +51,12 @@ export default function NewUserScreen() {
                 setTimeout(() => {
                     setCreated(true);
                 }, 2000);
+            } else if (res.status === 403) {
+                toast.error('Nemáš opravnění heh.', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                });
             } else {
                 toast.error('User registration failed.', {
                     position: toast.POSITION.TOP_CENTER,
@@ -60,6 +66,11 @@ export default function NewUserScreen() {
             }
         } catch (err) {
             console.log(err);
+            toast.error('User registration failed.', {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+                hideProgressBar: true,
+            });
         }
     };
 

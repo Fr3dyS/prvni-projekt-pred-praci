@@ -52,9 +52,6 @@ export default function DetailUserScreen() {
         return <Navigate to={'/users'} />;
     }
 
-    console.log(user?.id);
-    console.log(detailUser?.id);
-
     return (
         <Layout>
             <div className="min-h-screen bg-gray-100" style={{ overflowX: 'hidden' }}>

@@ -11,7 +11,7 @@ export default function UnauthNavbarLayout() {
     };
 
     return (
-        <nav className={`bg-${bgColor} py-2 md:py-4`}>
+        <nav className='bg-gray-800 py-2 md:py-4'>
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
                 <Link to="/" className="text-white font-bold text-xl">
                     Můj web

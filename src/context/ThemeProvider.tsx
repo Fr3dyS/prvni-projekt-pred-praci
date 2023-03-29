@@ -1,32 +1,21 @@
-import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
-import { ReactNode } from 'react';
-import { lightTheme, darkTheme, customTheme } from './Themes';
+import React from 'react';
 
-type ThemeName = 'light' | 'dark' | 'custom';
+export const ThemeContext = React.createContext({
+    theme: 'light',
+    setTheme: (theme: string) => { },
+});
 
-interface ThemeProviderProps {
-    children: ReactNode;
-    theme: ThemeName;
-}
+export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+    const [theme, setTheme] = React.useState('light');
 
-const getTheme = (themeName: ThemeName) => {
-    switch (themeName) {
-        case 'light':
-            return lightTheme;
-        case 'dark':
-            return darkTheme;
-        case 'custom':
-            return customTheme;
-        default:
-            throw new Error(`Invalid theme name: ${themeName}`);
-    }
-};
+    const contextValue = {
+        theme,
+        setTheme,
+    };
 
-export const ThemeProvider = ({ children, theme }: ThemeProviderProps) => {
-    const selectedTheme = getTheme(theme);
     return (
-        <StyledComponentsThemeProvider theme={selectedTheme}>
+        <ThemeContext.Provider value={contextValue}>
             {children}
-        </StyledComponentsThemeProvider>
+        </ThemeContext.Provider>
     );
-};
+}

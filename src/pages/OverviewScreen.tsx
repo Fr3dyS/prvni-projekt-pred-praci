@@ -11,11 +11,13 @@ type UsersRole = {
   role: string;
 };
 
-interface RoleColor {
-  role: string;
+interface RoleCounts {
+  [key: string]: number;
 }
 
+
 function getRoleColor(role: string) {
+  // Funkce vrátí barvu pozadí pro zadanou roli
   switch (role) {
     case 'ghost':
       return 'bg-gray-500';
@@ -37,29 +39,27 @@ function getRoleColor(role: string) {
 export default function OverviewScreen() {
   const [usersCount, setUsersCount] = useState<{ total: number }>({ total: 0 });
   const [users, setUsers] = useState<UsersRole[]>([]);
-  const [roles, setRoles] = useState<{ [key: string]: number }>({});
+  const [roles, setRoles] = useState<RoleCounts>({});
 
   const fetchData = async () => {
     const res = await httpGet('users?limit=1000');
     if (res.status === 200) {
+      // Získávání dat o uživatelích ze serveru
       setUsersCount(res.data.meta);
       setUsers(res.data.payload);
     }
   };
 
   useEffect(() => {
+    // Načtení dat o uživatelích po načtení stránky
     fetchData();
   }, []);
 
   useEffect(() => {
-    const roleCounts: { [key: string]: number } = {};
-    users.forEach((user) => {
-      if (user.role in roleCounts) {
-        roleCounts[user.role]++;
-      } else {
-        roleCounts[user.role] = 1;
-      }
-    });
+    // Spočítání počtu uživatelů pro každou roli
+    const roleCounts = users.reduce((acc, user) => {
+      return { ...acc, [user.role]: (acc[user.role] || 0) + 1 };
+    }, {} as RoleCounts);
     setRoles(roleCounts);
   }, [users]);
 
@@ -83,6 +83,7 @@ export default function OverviewScreen() {
           </div>
         </div>
       ) : (
+        // Zobrazení nápisu "Loading" pokud se načítají data o uživatelích
         <div>Loading....</div>
       )}
     </Layout>

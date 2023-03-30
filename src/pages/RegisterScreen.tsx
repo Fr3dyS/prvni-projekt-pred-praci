@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Form, Formik, Field } from 'formik';
 import { Navigate, Route, Link } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -8,13 +8,13 @@ import FormLayout from '../components/layout/FormLayout';
 import UnauthLayout from '../components/layout/UnauthLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { DarkModeContext } from '../context/ThemeProvider';
 
 interface values {
     firstName: string;
     lastName: string;
     username: string;
     password: string;
-    confirmPassword: string;
 }
 
 /**
@@ -24,6 +24,7 @@ interface values {
 export default function RegisterScreen() {
     const { login, isAuthenticated } = useAuth();
     const [register, setRegistered] = useState(false);
+    const { theme } = useContext(DarkModeContext);
 
     // definice validačního schématu pro přihlašovací formulář
     const LoginSchema = Yup.object().shape({
@@ -41,7 +42,6 @@ export default function RegisterScreen() {
         const { firstName, lastName, username, password } = values;
 
         try {
-            await LoginSchema.validate(values, { abortEarly: false }); // validace formulářových polí
             const res = await httpPost('auth/signup', { firstName, lastName, username, password }); // odeslání dat na server pro registraci uživatele
             if (res.status === 200) { // kontrola, zda byl uživatel úspěšně registrován
                 toast.success('User registered successfully.', { // zobrazení hlášky o úspěšné registraci
@@ -68,6 +68,7 @@ export default function RegisterScreen() {
     if (isAuthenticated) {
         return <Navigate to={'/'} />;
     }
+    // Pokud uživatel vytvoří registraci, přesměruj ho na stránku přihlášení
     if (register) {
         return <Navigate to={'/login'} />;
     }
@@ -75,8 +76,8 @@ export default function RegisterScreen() {
     return (
         <UnauthLayout>
             <ToastContainer />
-            <div className='h-screen max-w-full max-h-400 w-screen mx-auto flex flex-col items-center justify-center'>
-                <h1 className='text-3xl font-extrabold text-gray-800 mb-8'>Register</h1>
+            <div className={`h-screen max-w-full max-h-400 w-screen mx-auto flex flex-col items-center justify-center ${theme === 'light' ? 'bg-gray-200 text-gray-800' : theme === 'dark' ? 'bg-gray-700 text-white' : theme === 'red' ? 'bg-stone-600 text-black' : 'bg-gray-800 text-gray-800'}`}>
+                <h1 className='text-3xl font-extrabold mb-8'>Register</h1>
                 <Formik
                     initialValues={{
                         firstName: '',
@@ -90,18 +91,23 @@ export default function RegisterScreen() {
                 >
                     {({ errors, touched }) => (
                         <Form className='flex flex-col'>
+                            {/* Formulářové prvky */}
                             <FormLayout type='text' name='firstName' placeholder='first name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
                             <FormLayout type='text' name='lastName' placeholder='last name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
                             <FormLayout type='text' name='username' placeholder='username' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
                             <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
                             <FormLayout type='password' name='confirmPassword' placeholder='Confirm password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
+
+                            {/* Tlačítko pro odeslání formuláře */}
                             <button
-                                className='w-full bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full text-white font-semibold px-8 py-2 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none mx-auto'
+                                className={`w-full rounded-full font-semibold px-8 py-2 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none mx-auto ${theme === 'light' ? 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white' : theme === 'dark' ? 'bg-gradient-to-r from-red-600 to-red-700 text-white' : theme === 'red' ? 'bg-gradient-to-r from-gray-700 to-gray-800 text-white' : 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white'}`}
                                 type='submit'
                             >
                                 Submit
                             </button>
-                            <div className='text-sm mt-4 flex justify-center text-gray-600'>
+
+                            {/* Odkaz pro přesměrování na stránku přihlášení */}
+                            <div className='text-sm mt-4 flex justify-center'>
                                 <span className='mr-2'>
                                     <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4 inline-block align-middle' viewBox='0 0 20 20' fill='currentColor'>
                                         <path fillRule='evenodd' d='M15.146 4.146a.5.5 0 01.708 0l1 1a.5.5 0 010 .708l-8.5 8.5a.5.5 0 01-.765-.638l.057-.07 3.146-3.146-7.793.068a.5.5 0 01-.485-.606l.026-.118 1.5-6a.5.5 0 01.623-.365l.094.03 6 3zm-4.292 4.708a.5.5 0 01.707 0l2 2a.5.5 0 01-.708.708L11 10.707V14.5a.5.5 0 01-1 0V10.707L8.146 12.56a.5.5 0 01-.708-.708l2-2z' clipRule='evenodd' />

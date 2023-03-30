@@ -13,8 +13,6 @@ export default function EditUserScreen() {
     const { id } = useParams<{ id: string }>();
     const [userEdit, setUserEdit] = useState<User>();
     const [userEdited, setUserEdited] = useState(false);
-    const { userRole } = useAuth();
-    const [role, setRole] = useState('');
     const { user } = useAuth();
 
     const validationSchema = Yup.object().shape({

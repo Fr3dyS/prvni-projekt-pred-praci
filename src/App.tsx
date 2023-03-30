@@ -7,6 +7,7 @@ import { routes } from './utils/routes';
 import customTheme from './components/themes/custom';
 import darkTheme from './components/themes/dark';
 import lightTheme from './components/themes/light';
+import DarkModeProvider from './context/ThemeProvider';
 
 function App() {
   const [themeMode, setThemeMode] = React.useState('light');
@@ -29,7 +30,7 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={getTheme()}>
+    <DarkModeProvider>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
@@ -49,14 +50,8 @@ function App() {
           </Routes>
         </BrowserRouter>
       </AuthProvider>
-      <div>
-        <select value={themeMode} onChange={handleThemeChange}>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-          <option value="red">Red</option>
-        </select>
-      </div>
-    </ThemeProvider>
+
+    </DarkModeProvider>
   );
 }
 

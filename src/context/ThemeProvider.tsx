@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useContext, useState, ReactNode } from 'react';
 
-export const ThemeContext = React.createContext({
+interface IDarkModeContext {
+    theme: string;
+    toggleTheme: (nextTheme: string) => void;
+}
+
+export const DarkModeContext = React.createContext<IDarkModeContext>({
     theme: 'light',
-    setTheme: (theme: string) => { },
+    toggleTheme: () => {
+        console.log('dd');
+    },
 });
 
-export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = React.useState('light');
+interface IDarkModeProviderProps {
+    children: ReactNode;
+}
 
-    const contextValue = {
-        theme,
-        setTheme,
+export default function DarkModeProvider(props: IDarkModeProviderProps) {
+    const [theme, setTheme] = useState('light');
+    const toggleTheme = (nextTheme: string) => {
+        setTheme(nextTheme);
     };
 
+    const contextValue: IDarkModeContext = {
+        theme,
+        toggleTheme,
+    };
     return (
-        <ThemeContext.Provider value={contextValue}>
-            {children}
-        </ThemeContext.Provider>
+        <div>
+            <DarkModeContext.Provider value={contextValue}>
+                {props.children}
+            </DarkModeContext.Provider>
+        </div>
     );
 }
+
+interface ILightSwitchProps {
+    themeOptions: string[];
+}
+
+

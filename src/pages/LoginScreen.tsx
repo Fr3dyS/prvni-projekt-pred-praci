@@ -60,7 +60,7 @@ export default function LoginScreen() {
     <UnauthLayout>
       <ToastContainer />
       <div className='h-screen max-w-full w-screen mx-auto flex flex-col items-center justify-center'>
-        <h1 className='text-3xl font-extrabold text-gray-800 mb-8'>Sign in</h1>
+        <h1 className='text-3xl font-extrabold mb-8'>Sign in</h1>
         <Formik
           initialValues={{
             username: '',
@@ -79,7 +79,7 @@ export default function LoginScreen() {
               >
                 Submit
               </button>
-              <div className='text-sm mt-4 flex justify-center text-gray-600'>
+              <div className='text-sm mt-4 flex justify-center '>
                 <span className='mr-2'>
                   <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4 inline-block align-middle' viewBox='0 0 20 20' fill='currentColor'>
                     <path d='M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0zm4.25 12.25l-1.5 1.5L10 11.5l-2.75 2.25-1.5-1.5L8.5 10l-2.25-2.75 1.5-1.5L10 8.5l2.75-2.25 1.5 1.5L11.5 10z' />

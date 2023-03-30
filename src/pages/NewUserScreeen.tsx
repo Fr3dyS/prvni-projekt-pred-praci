@@ -28,7 +28,6 @@ export default function NewUserScreen() {
     const navigate = useNavigate();
     const [created, setCreated] = useState(false);
 
-
     // definice validačního schématu pro přihlašovací formulář
     const LoginSchema = Yup.object().shape({
         firstName: Yup.string().required('first name is required.'),
@@ -76,6 +75,10 @@ export default function NewUserScreen() {
 
     if (created) {
         return <Navigate to={'/users'} />;
+    }
+
+    if (!login) {
+        return <Navigate to={'/'} />;
     }
 
     return (

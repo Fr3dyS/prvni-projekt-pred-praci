@@ -76,7 +76,7 @@ export default function RegisterScreen() {
     return (
         <UnauthLayout>
             <ToastContainer />
-            <div className={`h-screen max-w-full max-h-400 w-screen mx-auto flex flex-col items-center justify-center ${theme === 'light' ? 'bg-gray-200 text-gray-800' : theme === 'dark' ? 'bg-gray-700 text-white' : theme === 'red' ? 'bg-stone-600 text-black' : 'bg-gray-800 text-gray-800'}`}>
+            <div className='h-screen max-w-full max-h-400 w-screen mx-auto flex flex-col items-center justify-center'>
                 <h1 className='text-3xl font-extrabold mb-8'>Register</h1>
                 <Formik
                     initialValues={{

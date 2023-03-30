@@ -66,20 +66,22 @@ export default function OverviewScreen() {
   return (
     <Layout>
       {usersCount ? (
-        <div className='flex flex-col container mx-auto'>
-          <h1 className='text-4xl font-bold mb-4'>Overview</h1>
-          <div className='text-lg mb-4'>
-            <span className='font-bold'>Number of Users:</span> {usersCount.total}
-            <hr className='my-4' />
-          </div>
-          <h2 className='text-2xl font-bold mb-4'>User Roles:</h2>
-          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
-            {Object.entries(roles).map(([role, count]) => (
-              <div key={role} className={`p-4 rounded-md ${getRoleColor(role)}`}>
-                <div className='font-bold text-lg'>{role}</div>
-                <div className='text-gray-100'>{count} users</div>
-              </div>
-            ))}
+        <div className='flex flex-col justify-center items-center min-h-screen'>
+          <div className='container mx-auto bg-white p-8 rounded-lg shadow-lg'>
+            <h1 className='text-4xl font-bold mb-4'>Overview</h1>
+            <div className='text-lg mb-4'>
+              <span className='font-bold'>Number of Users:</span> {usersCount.total}
+              <hr className='my-4' />
+            </div>
+            <h2 className='text-2xl font-bold mb-4'>User Roles:</h2>
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
+              {Object.entries(roles).map(([role, count]) => (
+                <div key={role} className={`p-4 rounded-md ${getRoleColor(role)}`}>
+                  <div className='font-bold text-lg'>{role}</div>
+                  <div className='text-gray-100'>{count} users</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ) : (

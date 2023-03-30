@@ -4,33 +4,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/routes/PrivateRoute';
 import AuthProvider from './context/AuthProvider';
 import { routes } from './utils/routes';
-import customTheme from './components/themes/custom';
-import darkTheme from './components/themes/dark';
-import lightTheme from './components/themes/light';
-import DarkModeProvider from './context/ThemeProvider';
+import ModeProvider from './context/ThemeProvider';
 
 function App() {
-  const [themeMode, setThemeMode] = React.useState('light');
-
-  const getTheme = () => {
-    switch (themeMode) {
-      case 'light':
-        return lightTheme;
-      case 'dark':
-        return darkTheme;
-      case 'red':
-        return customTheme;
-      default:
-        return lightTheme;
-    }
-  };
-
-  const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setThemeMode(event.target.value);
-  };
-
   return (
-    <DarkModeProvider>
+    <ModeProvider>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
@@ -51,7 +29,7 @@ function App() {
         </BrowserRouter>
       </AuthProvider>
 
-    </DarkModeProvider>
+    </ModeProvider>
   );
 }
 

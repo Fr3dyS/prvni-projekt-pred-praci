@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from 'styled-components';
 import { useAuth } from '../../../context/AuthProvider';
-import { DarkModeContext } from '../../../context/ThemeProvider';
+import { ModeContext } from '../../../context/ThemeProvider';
 import Lightswitch from './Lightswitch';
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
@@ -13,7 +13,7 @@ export default function AuthNavbarLayout() {
     const { logout } = useAuth();
     const { user } = useAuth();
     const toggle = () => setIsOpen(prevState => !prevState);
-    const { theme } = useContext(DarkModeContext);
+    const { theme } = useContext(ModeContext);
 
 
 
@@ -23,7 +23,7 @@ export default function AuthNavbarLayout() {
 
 
     return (
-        <nav className={` ${theme === 'light' ? 'bg-gray-800' :
+        <nav className={`${theme === 'light' ? 'bg-gray-800' :
             theme === 'dark' ? 'bg-gray-900' :
                 theme === 'red' ? 'bg-red-800' :
                     'bg-gray-800'

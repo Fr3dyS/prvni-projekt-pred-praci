@@ -57,6 +57,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       }
     } catch (err) {
       console.log({ err });
+      logout();
     }
   };
 

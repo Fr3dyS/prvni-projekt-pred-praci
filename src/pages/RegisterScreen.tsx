@@ -8,7 +8,7 @@ import FormLayout from '../components/layout/FormLayout';
 import UnauthLayout from '../components/layout/UnauthLayout';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { DarkModeContext } from '../context/ThemeProvider';
+import { ModeContext } from '../context/ThemeProvider';
 
 interface values {
     firstName: string;
@@ -24,7 +24,7 @@ interface values {
 export default function RegisterScreen() {
     const { login, isAuthenticated } = useAuth();
     const [register, setRegistered] = useState(false);
-    const { theme } = useContext(DarkModeContext);
+    const { theme } = useContext(ModeContext);
 
     // definice validačního schématu pro přihlašovací formulář
     const LoginSchema = Yup.object().shape({

@@ -1,11 +1,11 @@
 import React, { useContext, useState, ReactNode } from 'react';
 
-interface IDarkModeContext {
+interface IModeContext {
     theme: string;
     toggleTheme: (nextTheme: string) => void;
 }
 
-export const DarkModeContext = React.createContext<IDarkModeContext>({
+export const ModeContext = React.createContext<IModeContext>({
     theme: 'light',
     toggleTheme: () => {
         console.log('dd');
@@ -16,21 +16,21 @@ interface IDarkModeProviderProps {
     children: ReactNode;
 }
 
-export default function DarkModeProvider(props: IDarkModeProviderProps) {
+export default function ModeProvider(props: IDarkModeProviderProps) {
     const [theme, setTheme] = useState('light');
     const toggleTheme = (nextTheme: string) => {
         setTheme(nextTheme);
     };
 
-    const contextValue: IDarkModeContext = {
+    const contextValue: IModeContext = {
         theme,
         toggleTheme,
     };
     return (
         <div>
-            <DarkModeContext.Provider value={contextValue}>
+            <ModeContext.Provider value={contextValue}>
                 {props.children}
-            </DarkModeContext.Provider>
+            </ModeContext.Provider>
         </div>
     );
 }

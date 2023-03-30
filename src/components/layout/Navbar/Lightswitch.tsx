@@ -1,5 +1,5 @@
 import { Fragment, useContext } from 'react';
-import { DarkModeContext } from '../../../context/ThemeProvider';
+import { ModeContext } from '../../../context/ThemeProvider';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
@@ -8,7 +8,7 @@ function classNames(...classes: string[]) {
 }
 
 function Lightswitch() {
-    const { theme, toggleTheme } = useContext(DarkModeContext);
+    const { theme, toggleTheme } = useContext(ModeContext);
 
     const themes = ['light', 'dark', 'red'];
 

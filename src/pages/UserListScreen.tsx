@@ -89,109 +89,110 @@ export default function UserListScreen() {
   // Pole s definicemi sloupců pro zobrazení v DataTable
   const columns = [
     {
-      Header: '#', // Hlavička sloupce s pořadovým číslem
-      accessor: 'id', // Přístup k ID uživatele
-      // Vlastní render pro zobrazení pořadového čísla
-      Cell: ({ cell }: CellProps<Users>) => (
-        <span>{cell.row.index + 1}</span>
-      ),
-    },
-    {
-      Header: 'Username', // Hlavička sloupce s uživatelským jménem
-      accessor: 'username', // Přístup k uživatelskému jménu
-    },
-    {
-      Header: 'First name', // Hlavička sloupce s křestním jménem
-      accessor: 'firstName', // Přístup ke křestnímu jménu
-    }, {
-      Header: 'Last name',
-      accessor: 'lastName',
-    },
-    {
-      Header: 'Role',
-      accessor: 'role',
-      Cell: ({ cell }: CellProps<Users>) => (
-        <RoleTag
-          color={
-            cell.value === 'ghost'
-              ? 'bg-gray-500'
-              : cell.value === 'asset'
-                ? 'bg-blue-500'
-                : cell.value === 'technician'
-                  ? 'bg-emerald-500'
-                  : cell.value === 'manager'
-                    ? 'bg-lime-500'
-                    : 'bg-red-500'
-          }
-          text={cell.value}
-        />
-      ),
-    },
-    {
-      Header: 'Actions',
-      accessor: 'buttons',
-      // vlastní render
-      Cell: ({ cell }: CellProps<Users>) => (
-        <div className='flex flex-row justify-center'>
-          {user?.role === 'admin' || user?.role === 'manager' ? (
-            <>
-              <Icon
-                icon={TrashIcon}
-                className='h-5 w-5 text-red-500 cursor-pointer'
-                onClick={() => {
-                  setDeleteUserId(cell.row.values.id);
-                  setShowModal(true);
-                }}
-              />
-              {showModal && deleteUserId === cell.row.values.id && (
-                <Modal
-                  message='Opravdu chcete smazat tohoto uživatele?'
-                  confirmText='Smazat'
-                  onConfirm={() => {
-                    deleteUser(cell.row.values.id);
-                    setShowModal(false);
-                  }}
-                  onCancel={() => {
-                    setDeleteUserId(null);
-                    setShowModal(false);
-                    toast.warning('Nothing was deleted.', {
-                      position: toast.POSITION.TOP_CENTER,
-                      autoClose: 2000,
-                    });
-                  }}
-                />
-              )}
-              {user?.role === 'admin' || user?.role === 'manager' ? (
-                <Link to={`/users/edit/${cell.row.values.id}`}>
-                  <Icon
-                    icon={PencilSquareIcon}
-                    className='h-5 w-5 text-red-500 cursor-pointer'
-                  />
-                </Link>
-              ) : null}
-            </>
-          ) : null}
-
-          <Link to={`/users/detail/${cell.row.values.id}`}>
-            <Icon
-              icon={InformationCircleIcon}
-              className='h-5 w-5 text-red-500 cursor-pointer'
+      Header: 'tabule',
+      columns: [
+        {
+          Header: '#', // Hlavička sloupce s pořadovým číslem
+          accessor: 'id', // Přístup k ID uživatele
+          // Vlastní render pro zobrazení pořadového čísla
+          Cell: ({ cell }: CellProps<Users>) => (
+            <span>{cell.row.index + 1}</span>
+          ),
+        },
+        {
+          Header: 'Username', // Hlavička sloupce s uživatelským jménem
+          accessor: 'username', // Přístup k uživatelskému jménu
+        },
+        {
+          Header: 'First name', // Hlavička sloupce s křestním jménem
+          accessor: 'firstName', // Přístup ke křestnímu jménu
+        },
+        {
+          Header: 'Last name',
+          accessor: 'lastName',
+        },
+        {
+          Header: 'Role',
+          accessor: 'role',
+          Cell: ({ cell }: CellProps<Users>) => (
+            <RoleTag
+              color={
+                cell.value === 'ghost'
+                  ? 'bg-gray-500'
+                  : cell.value === 'asset'
+                    ? 'bg-blue-500'
+                    : cell.value === 'technician'
+                      ? 'bg-emerald-500'
+                      : cell.value === 'manager'
+                        ? 'bg-lime-500'
+                        : 'bg-red-500'
+              }
+              text={cell.value}
             />
-          </Link>
-        </div>
-
-
-      ),
-    }
+          ),
+        },
+        {
+          Header: 'Actions',
+          accessor: 'buttons',
+          // vlastní render
+          Cell: ({ cell }: CellProps<Users>) => (
+            <div className='flex flex-row justify-center'>
+              {user?.role === 'admin' || user?.role === 'manager' ? (
+                <>
+                  <Icon
+                    icon={TrashIcon}
+                    className='h-5 w-5 text-red-500 cursor-pointer'
+                    onClick={() => {
+                      setDeleteUserId(cell.row.values.id);
+                      setShowModal(true);
+                    }}
+                  />
+                  {showModal && deleteUserId === cell.row.values.id && (
+                    <Modal
+                      message='Opravdu chcete smazat tohoto uživatele?'
+                      confirmText='Smazat'
+                      onConfirm={() => {
+                        deleteUser(cell.row.values.id);
+                        setShowModal(false);
+                      }}
+                      onCancel={() => {
+                        setDeleteUserId(null);
+                        setShowModal(false);
+                        toast.warning('Nothing was deleted.', {
+                          position: toast.POSITION.TOP_CENTER,
+                          autoClose: 2000,
+                        });
+                      }}
+                    />
+                  )}
+                  <Link to={`/users/edit/${cell.row.values.id}`}>
+                    <Icon
+                      icon={PencilSquareIcon}
+                      className='h-5 w-5 text-red-500 cursor-pointer'
+                    />
+                  </Link>
+                </>
+              ) : null}
+              <Link to={`/users/detail/${cell.row.values.id}`}>
+                <Icon
+                  icon={InformationCircleIcon}
+                  className='h-5 w-5 text-red-500 cursor-pointer'
+                />
+              </Link>
+            </div>
+          ),
+        },
+      ],
+    },
   ];
 
   return (
     <Layout>
       <ToastContainer />
       {columns ? (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen ">
           <div className="py-12 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">User list</h1>
+            <h1 className="text-3xl font-bold mb-4">User list</h1>
             <div className="bg-white shadow-md rounded-lg overflow-hidden w-full">
               <DataTable data={users} columns={columns} />
             </div>

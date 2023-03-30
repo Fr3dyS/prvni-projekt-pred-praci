@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { DarkModeContext } from '../../../context/ThemeProvider';
+import { ModeContext } from '../../../context/ThemeProvider';
 import Lightswitch from './Lightswitch';
 
 export default function UnauthNavbarLayout() {
     const location = useLocation();
     const [activeLink, setActiveLink] = useState(location.pathname);
     const [bgColor, setBgColor] = useState('gray-800');
-    const { theme } = useContext(DarkModeContext);
+    const { theme } = useContext(ModeContext);
 
     const handleLinkClick = (link: string) => {
         setActiveLink(link);

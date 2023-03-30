@@ -81,8 +81,8 @@ export default function NewUserScreen() {
     return (
         <Layout>
             <ToastContainer />
-            <div className='h-screen max-w-full max-h-400 w-screen mx-auto flex flex-col items-center justify-center'>
-                <h1 className='text-2xl font-bold mb-5'>Create new user</h1>
+            <div className='h-screen max-w-full max-h-400 w-screen mx-auto flex flex-col items-center justify-center '>
+                <h1 className='text-2xl font-bold mb-5 text-center'>Create new user</h1>
                 <Formik
                     initialValues={{
                         firstName: '',
@@ -96,14 +96,14 @@ export default function NewUserScreen() {
                 >
                     {({ errors, touched }) => (
                         <Form className='flex flex-col'>
-                            <FormLayout type='text' name='firstName' placeholder='first name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
-                            <FormLayout type='text' name='lastName' placeholder='last name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
-                            <FormLayout type='text' name='username' placeholder='username' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
-                            <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-gray-100" />
+                            <FormLayout type='text' name='firstName' placeholder='first name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-white shadow-sm" />
+                            <FormLayout type='text' name='lastName' placeholder='last name' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-white shadow-sm" />
+                            <FormLayout type='text' name='username' placeholder='username' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-white shadow-sm" />
+                            <FormLayout type='password' name='password' placeholder='Password' errors={errors} touched={touched} className="rounded-full px-4 py-2 bg-white shadow-sm" />
                             <div className='mb-4'>
                                 <Field
                                     as="select"
-                                    className="rounded-full px-4 py-2 bg-gray-100 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="rounded-full px-4 py-2 bg-white shadow-sm border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="role"
                                 >
                                     <option value="Admin">Admin</option>
